@@ -1,5 +1,3 @@
-package Blatt02;
-
 import java.time.LocalDate;
 
 public class Date {
