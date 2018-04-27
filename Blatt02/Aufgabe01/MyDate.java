@@ -7,9 +7,8 @@ package uebung_2;
  * - Implements the Interface {@link Comparable}.
  * @author Deuscher Marco
  * @author Jutz Benedikt
- * @param <T>
  */
-public class MyDate<T> implements Comparable<T>{
+public class MyDate implements Comparable<MyDate>{
 	// Three integer fields are required: day, month and year.
 	private int day, month, year;
 
@@ -116,15 +115,16 @@ public class MyDate<T> implements Comparable<T>{
 
 	/**
 	 * Compares another MyDate object to another.
-	 * @param o T
+	 * @param o MyDate
 	 * Should be another MyDate object.
 	 * @return -1 (if this.date < o)
 	 * @return 1 (if this.date > o)
 	 * @return 0 (if this.date.equals(o))
 	 */
 	@Override
-	public int compareTo(T o) {
-		MyDate date2 = (MyDate) o;
+	public int compareTo(MyDate date2) {
+		if(date2 == null)
+			throw new NullPointerException();
 		if(date2.year < this.year)
 			return 1;
 		if(date2.year > this.year)
