@@ -43,9 +43,13 @@ public class ImageViewer extends JFrame implements ActionListener {
 
         Label label_left = new Label("Thumbnail");
         Label label_center = new Label("Ganzes Bild");
+        Label dummyLeft = new Label();
+        Label dummyCenter = new Label();
 
         left.add(label_left,BorderLayout.NORTH);
         center.add(label_center,BorderLayout.NORTH);
+        left.add(dummyLeft,BorderLayout.CENTER);
+        center.add(dummyCenter,BorderLayout.CENTER);
 
         JButton button01 = new JButton("Bild aus Datei laden");
         JButton button02 = new JButton("Bild aus URL laden");
@@ -95,10 +99,13 @@ public class ImageViewer extends JFrame implements ActionListener {
                 e.printStackTrace();
             }
             System.out.println("Done");
+            left.remove(1);
             left.add(new JLabel(new ImageIcon(resize(image,150,150))));
+
             JLabel image_label = new JLabel(new ImageIcon(image));
             JScrollPane ScrollPane = new JScrollPane(image_label);
             ScrollPane.setPreferredSize(new Dimension(500,500));
+            center.remove(1);
             center.add(ScrollPane,BorderLayout.CENTER);
             ScrollPane.setVisible(true);
             window.pack();
@@ -142,10 +149,12 @@ public class ImageViewer extends JFrame implements ActionListener {
             System.out.println("Beim einlesen der URL ist ein Fehler aufgetreten!");
         }
         System.out.println("Done");
+        left.remove(1);
         left.add(new JLabel(new ImageIcon(resize(image,150,150))));
         JLabel image_label = new JLabel(new ImageIcon(image));
         JScrollPane ScrollPane = new JScrollPane(image_label);
         ScrollPane.setPreferredSize(new Dimension(500,500));
+        center.remove(1);
         center.add(ScrollPane,BorderLayout.CENTER);
         ScrollPane.setVisible(true);
         window.pack();
