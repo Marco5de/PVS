@@ -1,26 +1,17 @@
 package uebung_5;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
 public class ImageViewerUI extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JButton [] listeners = {new JButton("Bild aus Datei laden"),
 			new JButton("Bild aus URL laden")
 	};
-	private JPanel picture = new JPanel();
+	private JPanel picture = new JPanel(),
+			thumbnail = new JPanel();
 
 	public ImageViewerUI() {
 		setTitle("Image Viewer");
@@ -39,9 +30,9 @@ public class ImageViewerUI extends JFrame{
 		pictureContainer.add(p, BorderLayout.CENTER);
 		getContentPane().add(pictureContainer, BorderLayout.CENTER);
 
-		JPanel thumbnail = new JPanel();
 		thumbnail.setLayout(new BorderLayout());
 		thumbnail.add(new JLabel("Thumbnail"), BorderLayout.NORTH);
+		thumbnail.add(new JLabel(), BorderLayout.CENTER);
 		getContentPane().add(thumbnail, BorderLayout.WEST);
 
 		setVisible(true);
@@ -62,15 +53,33 @@ public class ImageViewerUI extends JFrame{
 	}
 
 	public void setPicture(BufferedImage image) {
+		double scale = 0;
+		int height = image.getHeight(),
+				width = image.getWidth();
+		scale = (Math.max(height, width)/ 150d);
+		int newHeight = new Double(height/scale).intValue();
+		int newWidth = new Double(width/scale).intValue();
+
+		BufferedImage resized = new BufferedImage(newWidth, newHeight, image.getType());
+		Graphics2D drawer = resized.createGraphics();
+		drawer.drawImage(image, 0, 0, newWidth, newHeight, 0, 0, width, height, null);
+		drawer.dispose();
+
 		picture.removeAll();
 		picture.add(new JLabel(new ImageIcon(image)));
+		thumbnail.remove(1);
+		thumbnail.add(new JLabel(new ImageIcon(resized)));
+		pack();
 	}
 
 	public void reportError(String message) {
-		JOptionPane.showMessageDialog(this, message, "Error message", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, message, "Fehler ist aufgetreten", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public String requestURL() {
-		return null;
+		String response = JOptionPane.showInputDialog(this, "Geben Sie eine URL ein:                                                         ", "Adresse eingeben", JOptionPane.INFORMATION_MESSAGE);
+		if(response == null)
+			response = "no URL set";
+		return response;
 	}
 }

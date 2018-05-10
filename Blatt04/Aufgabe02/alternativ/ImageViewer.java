@@ -1,15 +1,10 @@
 package uebung_5;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
-
 import javax.imageio.ImageIO;
-
 import javax.swing.JButton;
 
 public class ImageViewer extends WindowAdapter implements ActionListener{
@@ -44,9 +39,11 @@ public class ImageViewer extends WindowAdapter implements ActionListener{
 		else {
 			try {
 				String url = ui.requestURL();
-				URL adress = new URL(url);
-				BufferedImage image = ImageIO.read(adress);
-				ui.setPicture(image);
+				if(!url.equals("no URL set")) {
+					URL adress = new URL(url);
+					BufferedImage image = ImageIO.read(adress);
+					ui.setPicture(image);
+				}
 			}
 			catch(Exception e) {
 				ui.reportError(e.toString());
