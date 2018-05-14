@@ -1,4 +1,4 @@
-package Blatt04;
+﻿package Blatt04;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -97,6 +97,8 @@ public class ImageViewer extends JFrame implements ActionListener {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(
+                        null, "Beim Einlesen ist ein Fehler aufgetreten", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             System.out.println("Done");
             left.remove(1);
@@ -147,6 +149,8 @@ public class ImageViewer extends JFrame implements ActionListener {
 
         } catch (IOException e) {
             System.out.println("Beim einlesen der URL ist ein Fehler aufgetreten!");
+            JOptionPane.showMessageDialog(
+                    null, "Beim Einlesen ist ein Fehler aufgetreten", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         System.out.println("Done");
         left.remove(1);
@@ -173,10 +177,10 @@ public class ImageViewer extends JFrame implements ActionListener {
             System.out.println("URL eingegeben");
             getURLImage();
             dialog.dispose();
-            }
+        }
 
 
-            }
+    }
 
     public static void main(String[]args){
         new ImageViewer();
