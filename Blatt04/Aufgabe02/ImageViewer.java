@@ -2,6 +2,7 @@
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -62,7 +63,6 @@ public class ImageViewer extends JFrame implements ActionListener {
 
         window.setVisible(true);
     }
-
     /**
      * Bearbeiten der groesse eines Bildes fuer das Thumbnail
      * @param img zu skalierendes Bild
@@ -86,7 +86,9 @@ public class ImageViewer extends JFrame implements ActionListener {
      * Falls es sich um eine Bilddatei handelt wird diese dann geoeffnet
      */
     public void getFile() {
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
         JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        fileChooser.setFileFilter(filter);
         int returnValue = fileChooser.showOpenDialog(null);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
