@@ -1,5 +1,7 @@
 package swc.ctrl;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,19 +12,31 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
-import swc.data.*;
+import swc.data.Game;
+import swc.data.Group;
+import swc.data.SoccerWC;
+import swc.data.Team;
 
 public class CtrlGroup {
 	
-	public static ImageIcon getFlagIcon(String name){
-		ImageIcon icon = null;
-		try {
-			URL imgUrl = CtrlGroup.class.getResource("/data/icon/" + name + ".gif");
-			icon = new ImageIcon(imgUrl);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static ImageIcon getFlagIcon(String name){	
+		if(name.equals("default"))
+			return new ImageIcon("default");
+		URL imgUrl = null;
+		if(name.equals("cup")){
+			imgUrl = CtrlGroup.class.getResource("/data/icon/cup.png");
+			return new ImageIcon(imgUrl);
 		}
-		return icon;
+		imgUrl = CtrlGroup.class.getResource("/data/icon/" + name + ".gif");
+		if(imgUrl == null)
+			return new ImageIcon("default");
+		return new ImageIcon(imgUrl);
+	}
+
+	public static Image getMainWindowIcon(Toolkit tk) {
+		URL imgUrl = CtrlGroup.class.getResource("/data/icon/icon1.png");
+	    Image image = tk.getImage(imgUrl);
+	    return image;
 	}
 
 	public static Vector<String> getDefaultTeams() throws IOException{
@@ -62,6 +76,7 @@ public class CtrlGroup {
 		groups.add(new Group("Group G"));
 		groups.add(new Group("Group H"));
 		// Getting games.cfg ready
+			
 		BufferedReader br = null;
 		try {
 			URL confUrl = CtrlGroup.class.getResource("/data/config/games.cfg");
@@ -83,19 +98,20 @@ public class CtrlGroup {
 			Vector<Game> games = group.getGames();
 			games.clear();
 			for (int j = 0; j < 6; j++) {
-				Game tmp = new Game();
-				tmp.setIntId(Integer.valueOf(br.readLine()).intValue());
-				tmp.setDate(br.readLine());
-				tmp.setTime(br.readLine());
-				tmp.setLocation(br.readLine());
-				tmp.setTeamH(teams.get(Integer.valueOf(br.readLine()).intValue() -1));
-				tmp.setTeamG(teams.get(Integer.valueOf(br.readLine()).intValue() -1));
-				tmp.setGoalsH(0);
-				tmp.setGoalsG(0);
-				tmp.setPlayed(false);			
-				games.add(tmp);
+				games.add(new Game(
+						Integer.valueOf(br.readLine()).intValue(),
+						br.readLine(),
+						br.readLine(),
+						br.readLine(),
+						teams.get(Integer.valueOf(br.readLine()).intValue() -1),
+						teams.get(Integer.valueOf(br.readLine()).intValue() -1),
+						0,
+						0,
+						false
+						));
 			}
 			i++;
 		}
-	}		
+		CtrlFinals.createDefaultFinals(worldCup);
+	}	
 }

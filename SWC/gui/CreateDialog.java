@@ -1,6 +1,5 @@
 package swc.gui;
 
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -10,6 +9,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -23,11 +26,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import swc.data.*;
-import swc.ctrl.*;
+import swc.ctrl.CtrlGroup;
+import swc.data.SoccerWC;
 
 /**
  * @author Florian Rapp
@@ -35,6 +39,7 @@ import swc.ctrl.*;
 public class CreateDialog extends JDialog {
 	private static final long serialVersionUID = 1155754L;
 	private SoccerWC worldCup;
+	private Frame owner;
 	private Vector<DefaultListModel> models = new Vector<DefaultListModel>();
 	private boolean successful;
 	
@@ -42,6 +47,7 @@ public class CreateDialog extends JDialog {
 	public CreateDialog(Frame owner, SoccerWC worldCup) {
 		super(owner);
 		this.worldCup = worldCup;
+		this.owner = owner;
 		this.successful = false;
 		initComponents();
 	}
@@ -91,48 +97,109 @@ public class CreateDialog extends JDialog {
 		models.add(lmF);
 		models.add(lmG);
 		models.add(lmH);
+		try {
+			prepareListModels();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		// mouse listener for lists
+		MouseListener listMouseListener = new MouseListener() {
+			public void mouseReleased(MouseEvent arg0) {	
+			}
+			
+			public void mousePressed(MouseEvent arg0) {	
+			}
+			
+			public void mouseExited(MouseEvent arg0) {
+			}
+			
+			public void mouseEntered(MouseEvent arg0) {			
+			}
+			
+			public void mouseClicked(MouseEvent arg0) {
+				if(arg0.getClickCount() == 2){
+					
+					
+					/**
+					 * 
+					 * 
+					 * 
+					 * 
+					 * 
+					 * Insert call for EditGroupDialog here.
+					 * 
+					 * 
+					 * 
+					 * 
+					 * 
+					 * 
+					 * 
+					 * 
+					 */	
+					
+				}
+			}
+		};
 		
 		// preparing the lists
 		
 		listA.setBorder(javax.swing.BorderFactory.createLineBorder
 				(java.awt.Color.lightGray));
+		listA.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listA.setCellRenderer(new ListsRenderer());
 		listA.setModel(lmA);
+		listA.addMouseListener(listMouseListener);
 		
 		listB.setBorder(javax.swing.BorderFactory.createLineBorder
 				(java.awt.Color.lightGray));
+		listB.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listB.setCellRenderer(new ListsRenderer());
 		listB.setModel(lmB);
+		listB.addMouseListener(listMouseListener);
 		
 		listC.setBorder(javax.swing.BorderFactory.createLineBorder
 				(java.awt.Color.lightGray));
+		listC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listC.setCellRenderer(new ListsRenderer());
 		listC.setModel(lmC);
+		listC.addMouseListener(listMouseListener);
+		
 		
 		listD.setBorder(javax.swing.BorderFactory.createLineBorder
 				(java.awt.Color.lightGray));
+		listD.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listD.setCellRenderer(new ListsRenderer());
 		listD.setModel(lmD);
+		listD.addMouseListener(listMouseListener);
 		
 		listE.setBorder(javax.swing.BorderFactory.createLineBorder
 				(java.awt.Color.lightGray));
+		listE.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listE.setCellRenderer(new ListsRenderer());
 		listE.setModel(lmE);
+		listE.addMouseListener(listMouseListener);
 		
 		listF.setBorder(javax.swing.BorderFactory.createLineBorder
 				(java.awt.Color.lightGray));
+		listF.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listF.setCellRenderer(new ListsRenderer());
 		listF.setModel(lmF);
+		listF.addMouseListener(listMouseListener);
 		
 		listG.setBorder(javax.swing.BorderFactory.createLineBorder
 				(java.awt.Color.lightGray));
+		listG.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listG.setCellRenderer(new ListsRenderer());
 		listG.setModel(lmG);
+		listG.addMouseListener(listMouseListener);
 		
 		listH.setBorder(javax.swing.BorderFactory.createLineBorder
 				(java.awt.Color.lightGray));
+		listH.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listH.setCellRenderer(new ListsRenderer());
 		listH.setModel(lmH);
+		listH.addMouseListener(listMouseListener);
 
 		//======== panelGroups ========
 		{
@@ -230,7 +297,7 @@ public class CreateDialog extends JDialog {
 			buttonCreateWC.setText("Create World Cup");
 			buttonCreateWC.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					buttonCreateWCActionPerformed(e);
+					buttonCreateWCActionPerformed();
 				}
 			});
 			panelGroups.add(buttonCreateWC, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
@@ -248,35 +315,48 @@ public class CreateDialog extends JDialog {
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(10, 5, 10, 5), 0, 0));
 		}
+		
+		KeyListener kl = new KeyListener() {		
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(arg0.getKeyCode() == 10)
+					buttonCreateWCActionPerformed();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}
+		};
+		textFieldName.addKeyListener(kl);
+		
 		contentPane.setLayout(new BorderLayout());
 		contentPane.add(panelGroups, BorderLayout.PAGE_START);
 		pack();
 		setTitle("Create new Soccer World Cup");
 		setLocationRelativeTo(getOwner());
+		this.setResizable(false);
 	}
 
-	private void buttonCreateWCActionPerformed(ActionEvent e) {
-		for (DefaultListModel dlm : models) {
-			dlm.clear();
-		}
+	private void buttonCreateWCActionPerformed() {
 		if(textFieldName.getText().equals("")){
 			JOptionPane.showMessageDialog(this, "Please specify World Cup Name", "Create World Cup", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		try {
-			prepareListModels();
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-		try {
 			CtrlGroup.setNewWorldCup(worldCup, models, textFieldName.getText());
-		} catch (Exception e1) {
-			System.out.println("data structure invalid!");
+		} catch (NumberFormatException e1) {
+			JOptionPane.showMessageDialog(this, "Error setting data!", "Create World Cup", JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
-			return;
+		} catch (IOException e1) {
+			JOptionPane.showMessageDialog(this, "Error setting data!", "Create World Cup", JOptionPane.ERROR_MESSAGE);
+			e1.printStackTrace();
 		}
 		this.successful = true;
-		JOptionPane.showMessageDialog(this, "Creating data structure successful!", "Create World Cup", JOptionPane.INFORMATION_MESSAGE);
+		this.dispose();
 	}
 
 	private void buttonAbortActionPerformed(ActionEvent e) {
@@ -342,6 +422,12 @@ public class CreateDialog extends JDialog {
 			Icon icon = CtrlGroup.getFlagIcon(value.toString());
 	    	setIcon(icon);
 	    	setText(value.toString());
+	    	if(isSelected){
+	    		setOpaque(true);
+	    		setBackground(listA.getSelectionBackground());
+	    	}else {
+	    		setOpaque(false);
+	    	}
 			return this;
 		}
 	}
