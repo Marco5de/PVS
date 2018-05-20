@@ -23,7 +23,7 @@ public class EditGroupDialog {
 			x = JOptionPane.showOptionDialog(null, list.toArray(), "Edit Title", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 			if(x == 0) {
 				URL url = CtrlGroup.class.getResource("/data/icon/" + text.getText() + ".gif");
-				// Wichtig: man kann eine Bilddate mit diesem Namen aufrufen
+				// Wichtig: man kann eine Bilddatei mit diesem Namen aufrufen
 				// Außerdem ist der Name nicht lowercase (für spezielle Dateien reserviert)
 				if(url == null && !text.getText().toLowerCase().equals(text.getText())) {
 					x = -2;

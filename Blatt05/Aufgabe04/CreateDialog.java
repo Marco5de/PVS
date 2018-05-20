@@ -98,16 +98,22 @@ public class CreateDialog extends JDialog {
 			}
 			
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO:
-				// 1. Zu änderden Namen holen
-				if(arg0.getClickCount() >= 2) {
-					JList list = (JList) arg0.getSource();
-					String nameOfTeam = list.getSelectedValue().toString();
-					String name2 = EditGroupDialog.getNewName(nameOfTeam);
-				}
+				// 1. Zu änderden Namen holen, sowie seine Position
+				if(arg0.getClickCount() < 2) 
+					return;
+
+				JList list = (JList) arg0.getSource();
+				DefaultListModel model = (DefaultListModel) list.getModel();
+				int index = list.getSelectedIndex();
+				String nameOfTeam = list.getSelectedValue().toString();
+		
 				// 2. EditGroupDialog meldet erfolgreiches Ändern
-				// 3. Name in Programm ändern
-				// 4. Icon in der Liste ändern
+				String name2 = EditGroupDialog.getNewName(nameOfTeam);
+				if(name2.equals("no new name set"))
+					return;
+
+				// 3. Name in Programm ändern; Icon folgt nach.
+				model.set(index, name2);
 			}
 		};
 		

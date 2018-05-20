@@ -1,37 +1,17 @@
 package swc.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.Vector;
 
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
+import javax.swing.*;
+import javax.swing.text.*;
+
+import org.omg.CORBA.WCharSeqHelper;
 
 import swc.ctrl.CtrlGroup;
-import swc.data.SoccerWC;
+import swc.data.*;
 
 /**
  * @author Florian Rapp
@@ -118,27 +98,22 @@ public class CreateDialog extends JDialog {
 			}
 			
 			public void mouseClicked(MouseEvent arg0) {
-				if(arg0.getClickCount() == 2){
-					
-					
-					/**
-					 * 
-					 * 
-					 * 
-					 * 
-					 * 
-					 * Insert call for EditGroupDialog here.
-					 * 
-					 * 
-					 * 
-					 * 
-					 * 
-					 * 
-					 * 
-					 * 
-					 */	
-					
-				}
+				// 1. Zu änderden Namen holen, sowie seine Position
+				if(arg0.getClickCount() < 2) 
+					return;
+
+				JList list = (JList) arg0.getSource();
+				DefaultListModel model = (DefaultListModel) list.getModel();
+				int index = list.getSelectedIndex();
+				String nameOfTeam = list.getSelectedValue().toString();
+		
+				// 2. EditGroupDialog meldet erfolgreiches Ändern
+				String name2 = EditGroupDialog.getNewName(nameOfTeam);
+				if(name2.equals("no new name set"))
+					return;
+
+				// 3. Name in Programm ändern; Icon folgt nach.
+				model.set(index, name2);
 			}
 		};
 		
