@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class SoccerWC {
 	private Vector<Group> groups = new Vector<>();
-	private Final finals;
+	private Final finals = new Final();
 	private String name;
 	private String filename;
 

@@ -6,8 +6,8 @@ public class Final {
 	private Vector<Game> roundOf16 = new Vector<>();
 	private Vector<Game> quarterFinals = new Vector<>();
 	private Vector<Game> semiFinals = new Vector<>();
-	private Game thirdGame;
-	private Game finalGame;
+	private Game thirdGame = new Game();
+	private Game finalGame = new Game();
 	private String winner;
 
 	public Final() {}

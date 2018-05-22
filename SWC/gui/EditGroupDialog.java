@@ -24,8 +24,12 @@ public class EditGroupDialog {
 			if(x == 0) {
 				URL url = CtrlGroup.class.getResource("/data/icon/" + text.getText() + ".gif");
 				// Wichtig: man kann eine Bilddatei mit diesem Namen aufrufen
-				// Außerdem ist der Name nicht lowercase (für spezielle Dateien reserviert)
-				if(url == null && !text.getText().toLowerCase().equals(text.getText())) {
+				// Ausserdem beginnt der Name nicht mit lowercase (fuer spezielle Dateien reserviert)
+				if(text.getText().equals("")){
+					x = -2;
+					JOptionPane.showMessageDialog(null, "Empty name set!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				if(url == null || Character.isLowerCase(text.getText().charAt(0))) {
 					x = -2;
 					JOptionPane.showMessageDialog(null, "Invalid name set!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
