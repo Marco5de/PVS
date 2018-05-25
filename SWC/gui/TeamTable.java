@@ -148,27 +148,27 @@ final class TeamModel extends AbstractTableModel{
 		Team t = (Team) teams.get(row);
         switch(col) {
         case 0:
-        	return new Integer(row+1);
+        	return row+1;
         case 1:
-        	return CtrlGroup.getFlagIcon(t.getStrName());
+        	return CtrlGroup.getFlagIcon(t.getName());
         case 2:
-        	return t.getStrName();
+        	return t.getName();
         case 3:
-        	return new Integer(t.getPlayed());
+        	return t.getPlayed();
         case 4:
-        	return new Integer(t.getWon());
+        	return t.getWon();
         case 5:
-        	return new Integer(t.getDraws());
+        	return t.getDraw();
         case 6:
-        	return new Integer(t.getLost());
+        	return t.getLoss();
         case 7:
-        	return new Integer(t.getGf());
+        	return t.getGf();
         case 8:
-        	return new Integer(t.getGa());
+        	return t.getGa();
         case 9:
-        	return new Integer(t.getGf()-t.getGa());
+        	return t.getGf()-t.getGa();
         case 10:
-        	return new Integer(t.getPoints());
+        	return t.getPoints();
         default:
         	return "";
         }
