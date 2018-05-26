@@ -1,162 +1,115 @@
 package swc.data;
 
 public class Team implements Comparable<Team> {
-	private String strName;
-	private int points;
-	private int gf;
-	private int ga;
-	private int played;
-	private int won;
-	private int lost;
-	private int draws;
-	
-	public Team(String strName, int points, int gf, int ga, int played, int won, int lost, int draws) {
-		this.strName = strName;
-		this.points = points;
-		this.gf = gf;
-		this.ga = ga;
-		this.played = played;
-		this.won = won;
-		this.lost = lost;
-		this.draws = draws;
-	}
+    private String strName;
+    private int points;
+    private int gf;
+    private int ga;
+    private int played;
+    private int won;
+    private int loss;
+    private int draw;
 
-	/**
-	 * @return the strName
-	 */
-	public String getStrName() {
-		return strName;
-	}
+    public Team(String name, int points, int gf, int ga, int played ,int won, int loss, int draw){
+        this.strName = name;
+        this.points = points;
+        this.gf = gf;
+        this.ga = ga;
+        this.played = played;
+        this.won = won;
+        this.loss = loss;
+        this.draw = draw;
+    }
 
-	/**
-	 * @param strName the strName to set
-	 */
-	public void setStrName(String strName) {
-		this.strName = strName;
-	}
+    public Team() {}
 
-	/**
-	 * @return the points
-	 */
-	public int getPoints() {
-		return points;
-	}
+    public String getStrName() {
+        return strName;
+    }
 
-	/**
-	 * @param points the points to set
-	 */
-	public void setPoints(int points) {
-		this.points = points;
-	}
+    public int getPoints() {
+        return points;
+    }
 
-	/**
-	 * @return the gf
-	 */
-	public int getGf() {
-		return gf;
-	}
+    public int getGf() {
+        return gf;
+    }
 
-	/**
-	 * @param gf the gf to set
-	 */
-	public void setGf(int gf) {
-		this.gf = gf;
-	}
+    public int getGa() {
+        return ga;
+    }
 
-	/**
-	 * @return the ga
-	 */
-	public int getGa() {
-		return ga;
-	}
+    public int getPlayed() {
+        return played;
+    }
 
-	/**
-	 * @param ga the ga to set
-	 */
-	public void setGa(int ga) {
-		this.ga = ga;
-	}
+    public int getWon() {
+        return won;
+    }
 
-	/**
-	 * @return the played
-	 */
-	public int getPlayed() {
-		return played;
-	}
+    public int getLoss() {
+        return loss;
+    }
 
-	/**
-	 * @param played the played to set
-	 */
-	public void setPlayed(int played) {
-		this.played = played;
-	}
+    public int getDraw() {
+        return draw;
+    }
 
-	/**
-	 * @return the won
-	 */
-	public int getWon() {
-		return won;
-	}
+    public void setStrName(String strName) {
+        this.strName = strName;
+    }
 
-	/**
-	 * @param won the won to set
-	 */
-	public void setWon(int won) {
-		this.won = won;
-	}
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
-	/**
-	 * @return the lost
-	 */
-	public int getLost() {
-		return lost;
-	}
+    public void setGf(int gf) {
+        this.gf = gf;
+    }
 
-	/**
-	 * @param lost the lost to set
-	 */
-	public void setLost(int lost) {
-		this.lost = lost;
-	}
+    public void setGa(int ga) {
+        this.ga = ga;
+    }
 
-	/**
-	 * @return the draws
-	 */
-	public int getDraws() {
-		return draws;
-	}
+    public void setPlayed(int played) {
+        this.played = played;
+    }
 
-	/**
-	 * @param draws the draws to set
-	 */
-	public void setDraws(int draws) {
-		this.draws = draws;
-	}
+    public void setWon(int won) {
+        this.won = won;
+    }
 
-	@Override
-	public int compareTo(Team arg0) {
-		if(arg0 == null)
-			throw new NullPointerException();
-		if(this == arg0)
-			return 0;
+    public void setLoss(int loss) {
+        this.loss = loss;
+    }
 
-		if(arg0.points < this.points)
-			return -1;
-		if(arg0.points > this.points)
-			return 1;
+    public void setDraw(int draw) {
+        this.draw = draw;
+    }
 
-		int gd1 = gf-ga,
-				gd2 = arg0.gf-arg0.ga;
-		if(gd1 < gd2)
-			return 1;
-		if(gd1 > gd2)
-			return -1;
+    @Override
+    public int compareTo(Team compTeam) {
+        if(compTeam.points < this.points)
+            return -1;
+        else if(compTeam.points > this.points)
+            return 1;
+        else {
+            if((compTeam.gf - compTeam.ga) < (this.gf - this.ga))
+                return -1;
+            else if((compTeam.gf - compTeam.ga) > (this.gf - this.ga))
+                return 1;
+            else{
+                if(compTeam.gf < this.gf)
+                    return -1;
+                else
+                    return 1;
+            }
+        }
 
-		if(arg0.gf < this.gf)
-			return -1;
-		if(arg0.gf > this.gf)
-			return 1;
+    }
 
-		return 0;
-	}
+    public void clearTeam(){
+
+    }
+
 }

@@ -74,7 +74,7 @@ final class GameModel extends AbstractTableModel{
 	 * With that, we can show icons properly.
 	 * @param c - int
 	 * <ul> The column.
-	 * @return {@link GameModel#getValueAt(int, int)#getClass()}
+	 * @return {@link Object#getClass()}
 	 * @return null for a empty table.
 	 */
 	@Override
@@ -123,7 +123,7 @@ final class GameModel extends AbstractTableModel{
 	 * Returns a data field of an Game object.
 	 * @param row - int
 	 * <ul> Selects the Team object.
-	 * @param column - int
+	 * @param col - int
 	 * <ul> Selects the field to be shown.
 	 * See {@link GameModel#getColumnName(int)} for further information
 	 * about data types.
@@ -142,15 +142,15 @@ final class GameModel extends AbstractTableModel{
 		case 3:
 			return g.getLocation();
 		case 4:
-			return CtrlGroup.getFlagIcon(g.getTeamH().getName());
+			return CtrlGroup.getFlagIcon(g.getTeamH().getStrName());
 		case 5:
-			return g.getTeamH().getName();
+			return g.getTeamH().getStrName();
 		case 6:
 			return g.getGoalsH()+"-"+g.getGoalsG();
 		case 7:
-			return g.getTeamG().getName();
+			return g.getTeamG().getStrName();
 		case 8:
-			return CtrlGroup.getFlagIcon(g.getTeamH().getName());
+			return CtrlGroup.getFlagIcon(g.getTeamG().getStrName());
 		default:
 			return "";
 		}

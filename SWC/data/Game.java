@@ -1,156 +1,98 @@
 package swc.data;
 
 public class Game {
-	private int intId;
-	private String time;
-	private String date;
-	private String location;
-	private int goalsH;
-	private int goalsG;
-	private boolean isPlayed;
-	private Team teamH;
-	private Team teamG;
+    private int intId;
+    private String time;
+    private String date;
+    private String location;
+    private int goalsH;
+    private int goalsG;
+    private boolean isPlayed;
+    private Team teamH;
+    private Team teamG;
 
-	public Game() {
-		
-	}
+    public Game(int id, String date, String time, String location, Team home, Team guest, int goalsH, int goalsG,boolean isPlayed){
+        this.intId = id;
+        this.date = date;
+        this.time = time;
+        this.location = location;
+        this.teamH = home;
+        this.teamG = guest;
+        this.goalsG = goalsG;
+        this.goalsH = goalsH;
+        this.isPlayed = isPlayed;
+    }
+    public Game(){}
 
-	public Game(int intId, String time, String date, String location, int goalsH, int goalsG, boolean isPlayed,
-			Team teamH, Team teamG) {
-		this.intId = intId;
-		this.time = time;
-		this.date = date;
-		this.location = location;
-		this.goalsH = goalsH;
-		this.goalsG = goalsG;
-		this.isPlayed = isPlayed;
-		this.teamH = teamH;
-		this.teamG = teamG;
-	}
+    public int getIntId() {
+        return intId;
+    }
 
-	/**
-	 * @return the intId
-	 */
-	public int getIntId() {
-		return intId;
-	}
+    public String getTime() {
+        return time;
+    }
 
-	/**
-	 * @param intId the intId to set
-	 */
-	public void setIntId(int intId) {
-		this.intId = intId;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	/**
-	 * @return the time
-	 */
-	public String getTime() {
-		return time;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	/**
-	 * @param time the time to set
-	 */
-	public void setTime(String time) {
-		this.time = time;
-	}
+    public int getGoalsH() {
+        return goalsH;
+    }
 
-	/**
-	 * @return the date
-	 */
-	public String getDate() {
-		return date;
-	}
+    public int getGoalsG() {
+        return goalsG;
+    }
 
-	/**
-	 * @param date the date to set
-	 */
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public boolean isPlayed() {
+        return isPlayed;
+    }
 
-	/**
-	 * @return the location
-	 */
-	public String getLocation() {
-		return location;
-	}
+    public Team getTeamH() {
+        return teamH;
+    }
 
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public Team getTeamG() {
+        return teamG;
+    }
 
-	/**
-	 * @return the goalsH
-	 */
-	public int getGoalsH() {
-		return goalsH;
-	}
+    public void setIntId(int intId) {
+        this.intId = intId;
+    }
 
-	/**
-	 * @param goalsH the goalsH to set
-	 */
-	public void setGoalsH(int goalsH) {
-		this.goalsH = goalsH;
-	}
+    public void setTime(String time) {
+        this.time = time;
+    }
 
-	/**
-	 * @return the goalsG
-	 */
-	public int getGoalsG() {
-		return goalsG;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	/**
-	 * @param goalsG the goalsG to set
-	 */
-	public void setGoalsG(int goalsG) {
-		this.goalsG = goalsG;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	/**
-	 * @return the isPlayed
-	 */
-	public boolean isPlayed() {
-		return isPlayed;
-	}
+    public void setGoalsH(int goalsH) {
+        this.goalsH = goalsH;
+    }
 
-	/**
-	 * @param isPlayed the isPlayed to set
-	 */
-	public void setPlayed(boolean isPlayed) {
-		this.isPlayed = isPlayed;
-	}
+    public void setGoalsG(int goalsG) {
+        this.goalsG = goalsG;
+    }
 
-	/**
-	 * @return the teamH
-	 */
-	public Team getTeamH() {
-		return teamH;
-	}
+    public void setPlayed(boolean played) {
+        isPlayed = played;
+    }
 
-	/**
-	 * @param teamH the teamH to set
-	 */
-	public void setTeamH(Team teamH) {
-		this.teamH = teamH;
-	}
+    public void setTeamH(Team teamH) {
+        this.teamH = teamH;
+    }
 
-	/**
-	 * @return the teamG
-	 */
-	public Team getTeamG() {
-		return teamG;
-	}
-
-	/**
-	 * @param teamG the teamG to set
-	 */
-	public void setTeamG(Team teamG) {
-		this.teamG = teamG;
-	}
+    public void setTeamG(Team teamG) {
+        this.teamG = teamG;
+    }
 }

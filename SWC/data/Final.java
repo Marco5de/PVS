@@ -1,98 +1,63 @@
 package swc.data;
 
+
 import java.util.Vector;
 
 public class Final {
-	private Vector<Game> roundOf16 = new Vector<>();
-	private Vector<Game> quarterFinals = new Vector<>();
-	private Vector<Game> semiFinals = new Vector<>();
-	private Game thirdGame = new Game();
-	private Game finalGame = new Game();
-	private String winner;
+    private Vector<Game> roundOf16 = new Vector<>();
+    private Vector<Game> quarterFinals = new Vector<>();
+    private Vector<Game> semiFinals = new Vector<>();
+    private Game thirdGame = new Game();
+    private Game finalGame = new Game();
+    String winner;
 
-	public Final() {}
+    public Final(){}
 
-	/**
-	 * @return the roundOf16
-	 */
-	public Vector<Game> getRoundOf16() {
-		return roundOf16;
-	}
+    public Vector<Game> getRoundOf16() {
+        return roundOf16;
+    }
 
-	/**
-	 * @param roundOf16 the roundOf16 to set
-	 */
-	public void setRoundOf16(Vector<Game> roundOf16) {
-		this.roundOf16 = roundOf16;
-	}
+    public Vector<Game> getQuarterFinals() {
+        return quarterFinals;
+    }
 
-	/**
-	 * @return the quarterFinals
-	 */
-	public Vector<Game> getQuarterFinals() {
-		return quarterFinals;
-	}
+    public Vector<Game> getSemiFinals() {
+        return semiFinals;
+    }
 
-	/**
-	 * @param quarterFinals the quarterFinals to set
-	 */
-	public void setQuarterFinals(Vector<Game> quarterFinals) {
-		this.quarterFinals = quarterFinals;
-	}
+    public Game getThirdGame() {
+        return thirdGame;
+    }
 
-	/**
-	 * @return the semiFinals
-	 */
-	public Vector<Game> getSemiFinals() {
-		return semiFinals;
-	}
+    public Game getFinalGame() {
+        return finalGame;
+    }
 
-	/**
-	 * @param semiFinals the semiFinals to set
-	 */
-	public void setSemiFinals(Vector<Game> semiFinals) {
-		this.semiFinals = semiFinals;
-	}
+    public String getWinner() {
+        return winner;
+    }
 
-	/**
-	 * @return the thirdGame
-	 */
-	public Game getThirdGame() {
-		return thirdGame;
-	}
+    public void setRoundOf16(Vector<Game> roundOf16) {
+        this.roundOf16 = roundOf16;
+    }
 
-	/**
-	 * @param thirdGame the thirdGame to set
-	 */
-	public void setThirdGame(Game thirdGame) {
-		this.thirdGame = thirdGame;
-	}
+    public void setQuarterFinals(Vector<Game> quarterFinals) {
+        this.quarterFinals = quarterFinals;
+    }
 
-	/**
-	 * @return the finalGame
-	 */
-	public Game getFinalGame() {
-		return finalGame;
-	}
+    public void setSemiFinals(Vector<Game> semiFinals) {
+        this.semiFinals = semiFinals;
+    }
 
-	/**
-	 * @param finalGame the finalGame to set
-	 */
-	public void setFinalGame(Game finalGame) {
-		this.finalGame = finalGame;
-	}
+    public void setThirdGame(Game thirdGame) {
+        this.thirdGame = thirdGame;
+    }
 
-	/**
-	 * @return the winner
-	 */
-	public String getWinner() {
-		return winner;
-	}
+    public void setFinalGame(Game finalGame) {
+        this.finalGame = finalGame;
+    }
 
-	/**
-	 * @param winner the winner to set
-	 */
-	public void setWinner(String winner) {
-		this.winner = winner;
-	}
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
 }

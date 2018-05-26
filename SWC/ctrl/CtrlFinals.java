@@ -45,8 +45,8 @@ public class CtrlFinals {
 						0,
 						false
 			));
-			round16.get(i).getTeamH().setName(br.readLine());
-			round16.get(i).getTeamG().setName(br.readLine());
+			round16.get(i).getTeamH().setStrName(br.readLine());
+			round16.get(i).getTeamG().setStrName(br.readLine());
 		}
 		for (int i = 0; i < 4; i++) {
 			quarter.add(new Game(
@@ -60,8 +60,8 @@ public class CtrlFinals {
 						0,
 						false
 			));
-			quarter.get(i).getTeamH().setName(br.readLine());
-			quarter.get(i).getTeamG().setName(br.readLine());
+			quarter.get(i).getTeamH().setStrName(br.readLine());
+			quarter.get(i).getTeamG().setStrName(br.readLine());
 		}
 		for (int i = 0; i < 2; i++) {
 			semi.add(new Game(
@@ -75,8 +75,8 @@ public class CtrlFinals {
 						0,
 						false
 			));
-			semi.get(i).getTeamH().setName(br.readLine());
-			semi.get(i).getTeamG().setName(br.readLine());
+			semi.get(i).getTeamH().setStrName(br.readLine());
+			semi.get(i).getTeamG().setStrName(br.readLine());
 		}
 		thirdGame.setIntId(Integer.valueOf(br.readLine()).intValue());
 		thirdGame.setDate(br.readLine());
@@ -88,8 +88,8 @@ public class CtrlFinals {
 		thirdGame.setGoalsG(0);
 		thirdGame.setPlayed(false);
 		
-		thirdGame.getTeamH().setName(br.readLine());
-		thirdGame.getTeamG().setName(br.readLine());
+		thirdGame.getTeamH().setStrName(br.readLine());
+		thirdGame.getTeamG().setStrName(br.readLine());
 		
 		
 		finalGame.setIntId(Integer.valueOf(br.readLine()).intValue());
@@ -102,7 +102,7 @@ public class CtrlFinals {
 		finalGame.setGoalsG(0);
 		finalGame.setPlayed(false);
 		
-		finalGame.getTeamH().setName(br.readLine());
-		finalGame.getTeamG().setName(br.readLine());
+		finalGame.getTeamH().setStrName(br.readLine());
+		finalGame.getTeamG().setStrName(br.readLine());
 	}
 }
