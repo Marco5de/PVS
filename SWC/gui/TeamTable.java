@@ -61,20 +61,10 @@ final class TeamModel extends AbstractTableModel{
 	}
 
 	/**
-	 * Returns if a cell is editable.
-	 * @return false
-	 * No parameters of a Team can be edited in a table.
-	 */
-	@Override
-	public boolean isCellEditable(int row, int col) {
-		return false;
-	}
-
-	/**
 	 * Returns the class of the objects in a column.
 	 * With that, we can show icons properly.
 	 * @param c int The column.
-	 * @return {@link TeamModel#getValueAt(int, int)#getClass()}
+	 * @return {@link Object#getClass()}
 	 * @return null for a empty table.
 	 */
 	@Override
@@ -137,7 +127,7 @@ final class TeamModel extends AbstractTableModel{
 	 * Returns a data field of an Team object.
 	 * @param row - int
 	 * <ul> Selects the Team object.
-	 * @param column - int
+	 * @param col - int
 	 * <ul> Selects the field to be shown.
 	 * See {@link TeamModel#getColumnName(int)} for further information
 	 * about data types.
@@ -150,9 +140,9 @@ final class TeamModel extends AbstractTableModel{
         case 0:
         	return row+1;
         case 1:
-        	return CtrlGroup.getFlagIcon(t.getName());
+        	return CtrlGroup.getFlagIcon(t.getStrName());
         case 2:
-        	return t.getName();
+        	return t.getStrName();
         case 3:
         	return t.getPlayed();
         case 4:
