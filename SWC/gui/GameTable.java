@@ -1,9 +1,11 @@
 package swc.gui;
 
+import java.awt.event.*;
 import java.util.*;
 
 import swc.ctrl.CtrlGroup;
 import swc.data.*;
+import javax.swing.*;
 import javax.swing.table.*;
 
 /**
@@ -41,6 +43,14 @@ final class GameModel extends AbstractTableModel{
 	}
 
 	/**
+	 * Get the games we are looking on.
+	 * @return games - Vector<Game>
+	 */
+	public Vector<Game> getGames(){
+		return games;
+	}
+
+	/**
 	 * Returns how many rows the table should show.
 	 * @return {@link Vector#size()} - int
 	 */
@@ -57,16 +67,6 @@ final class GameModel extends AbstractTableModel{
 	@Override
 	public int getColumnCount() {
 		return 9;
-	}
-
-	/**
-	 * Returns if a cell is editable.
-	 * @return false
-	 * No parameters of a Game can be edited directly in a table.
-	 */
-	@Override
-	public boolean isCellEditable(int row, int col) {
-		return false;
 	}
 
 	/**
@@ -154,5 +154,58 @@ final class GameModel extends AbstractTableModel{
 		default:
 			return "";
 		}
+	}
+}
+
+/**
+ * GameEventHandler is used to handle the
+ * clicking of tables using the GameModel.
+ * With it, we can set the goals shot in a game.
+ * 
+ * @author Deuscher Marco
+ * @author Jutz Benedikt
+ */
+final class GameEventHandler extends MouseAdapter{
+	/**
+	 * The games to observe.
+	 */
+	private GameModel model;
+	/**
+	 * The table the user clicks on.
+	 */
+	private JTable table;
+
+	/**
+	 * Create the handler.
+	 * @param forGroupPhase - boolean
+	 * @param games - Vector<Game>
+	 */
+	public GameEventHandler(GameModel model, JTable table) {
+		this.model = model;
+		this.table = table;
+	}
+
+	/**
+	 * When double clicked, open a EditGameDialog to
+	 * type in the goals shot in a game.
+	 * @param e MouseEvent
+	 */
+	public void mouseClicked(MouseEvent e) {
+		if(e.getClickCount() < 2)
+			return;
+
+		int selectedRow = table.getSelectedRow();
+		Game game = model.getGames().get(selectedRow);
+
+		// TODO Implement calculation.
+		/*
+		 * Right now, only change the values in the Game class.
+		 */
+		int [] newGoalValues = EditGameDialog.getNewGoalCount(game);
+		if(newGoalValues == null)
+			return;
+
+		game.setGoalsH(newGoalValues[0]);
+		game.setGoalsG(newGoalValues[1]);
 	}
 }

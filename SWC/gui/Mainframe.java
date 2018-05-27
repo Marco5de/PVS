@@ -11,6 +11,7 @@ import swc.data.SoccerWC;
  * Mainframe houses the main window with GroupPanels
  * and a FinalsPanel. From it, new world cups can be edited
  * and created.
+ * Also, we can show the name of the world cup and the program status.
  * 
  * @author Deuscher Marco
  * @author Jutz Benedikt
@@ -29,6 +30,11 @@ public class Mainframe extends JFrame implements ActionListener{
 	 * FinalsPanel.
 	 */
 	private JTabbedPane tabPane = new JTabbedPane();
+	/**
+	 * Text labels which provide user information.
+	 */
+	private JLabel worldName = new JLabel("Unknown"),
+			statusText = new JLabel("No world cup set.");
 
 	/**
 	 * Create a new Mainframe.
@@ -88,9 +94,32 @@ public class Mainframe extends JFrame implements ActionListener{
 		menu.add(item);
 		bar.add(menu);
 
-		// Add the menu and the JTabbedPane.
+		/*
+		 * Create a new JPanel which shows the program status.
+		 * Also, take care of text formatting. 
+		 */
+		FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
+		JPanel statusPanel = new JPanel(layout);
+		Font font = new Font(null, Font.BOLD, 14);
+		statusPanel.add(new JLabel("World Cup"));
+		worldName.setFont(font);
+		statusPanel.add(worldName);
+		statusPanel.add(new JLabel("Status: "));
+		font = new Font(null, Font.BOLD, 13);
+		statusText.setFont(font);
+		statusText.setText("No world cup set.");
+		statusPanel.add(statusText);
+
+		/*
+		 * A main panel houses the JTabbedPane and the status panel.
+		 */
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel.add(statusPanel, BorderLayout.NORTH);
+		mainPanel.add(tabPane, BorderLayout.CENTER);
+
+		// Add the menu and the main content panel.
 		getContentPane().add(bar, BorderLayout.NORTH);
-		getContentPane().add(tabPane, BorderLayout.CENTER);
+		getContentPane().add(mainPanel, BorderLayout.CENTER);
 		setVisible(true);
 	}
 
@@ -117,14 +146,20 @@ public class Mainframe extends JFrame implements ActionListener{
 	}
 
 	/**
-	 * Create the GroupPanesl and the FinalsPanel.
 	 * To be called when a new WorldCup object is loaded.
+	 * Creates the GroupPanels and the FinalsPanel. Also
+	 * shows a custom message on the status panel.
+	 * 
+	 * @param message - String
 	 */
-	public void loadTabs() {
+	public void updateView(String message) {
 		tabPane.removeAll();
 		for(swc.data.Group group: worldCup.getGroups()) {
 			tabPane.addTab(group.getStrGroupName(), new GroupPanel(group));
 		}
 		tabPane.addTab("Finals", new FinalsPanel(worldCup.getFinals()));
+
+		worldName.setText(worldCup.getName());
+		statusText.setText(message);
 	}
 }

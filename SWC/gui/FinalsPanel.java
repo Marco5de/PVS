@@ -45,6 +45,8 @@ public class FinalsPanel extends JPanel {
 		 */
 		GameModel model = new GameModel(finals.getRoundOf16());
 		JTable table1 = new JTable(model);
+		table1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table1.addMouseListener(new GameEventHandler(model, table1));
 		JScrollPane scrollPane = new JScrollPane(table1);
 		add(scrollPane);
 
@@ -54,6 +56,8 @@ public class FinalsPanel extends JPanel {
 		add(labelPlaceHolder);
 		model = new GameModel(finals.getQuarterFinals());
 		JTable table2 = new JTable(model);
+		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table2.addMouseListener(new GameEventHandler(model, table2));
 		scrollPane = new JScrollPane(table2);
 		add(scrollPane);
 
@@ -63,6 +67,8 @@ public class FinalsPanel extends JPanel {
 		add(labelPlaceHolder);
 		model = new GameModel(finals.getSemiFinals());
 		JTable table3 = new JTable(model);
+		table3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table3.addMouseListener(new GameEventHandler(model, table3));
 		scrollPane = new JScrollPane(table3);
 		add(scrollPane);
 
@@ -72,6 +78,7 @@ public class FinalsPanel extends JPanel {
 		add(labelPlaceHolder);
 		model = new GameModel(finals.getThirdGame());
 		JTable table4 = new JTable(model);
+		table4.addMouseListener(new GameEventHandler(model, table4));
 		scrollPane = new JScrollPane(table4);
 		add(scrollPane);
 
@@ -81,6 +88,7 @@ public class FinalsPanel extends JPanel {
 		add(labelPlaceHolder);
 		model = new GameModel(finals.getFinalGame());
 		JTable table5 = new JTable(model);
+		table5.addMouseListener(new GameEventHandler(model, table5));
 		scrollPane = new JScrollPane(table5);
 		add(scrollPane);
 	}

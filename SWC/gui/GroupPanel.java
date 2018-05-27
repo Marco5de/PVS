@@ -1,8 +1,11 @@
 package swc.gui;
 
 import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import swc.data.Group;
 
@@ -13,7 +16,7 @@ import swc.data.Group;
  * @author Deuscher Marco
  * @author Jutz Benedikt
  */
-public class GroupPanel extends JPanel {
+public class GroupPanel extends JPanel{
 	/**
 	 * serialVersionUID for a javax.swing class.
 	 */
@@ -40,6 +43,7 @@ public class GroupPanel extends JPanel {
 		// Show the JTable.
 		TeamModel teams = new TeamModel(group.getTeams());
 		JTable table1 = new JTable(teams);
+		table1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane1 = new JScrollPane(table1);
 		add(scrollPane1);
 
@@ -50,6 +54,8 @@ public class GroupPanel extends JPanel {
 		// Show the JTable.
 		GameModel games = new GameModel(group.getGames());
 		JTable table2 = new JTable(games);
+		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table2.addMouseListener(new GameEventHandler(games, table2));
 		JScrollPane scrollPane2 = new JScrollPane(table2);
 		add(scrollPane2);
 	}

@@ -332,6 +332,8 @@ public class CreateDialog extends JDialog {
 		}
 		this.successful = true;
 		this.dispose();
+		Mainframe m = (Mainframe) owner;
+		m.updateView("World Cup created successfully!");
 	}
 
 	private void buttonAbortActionPerformed(ActionEvent e) {
