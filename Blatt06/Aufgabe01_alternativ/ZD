@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmlns:UML="http://schema.omg.org/spec/UML/1.4" verified="false" timestamp="2018-05-29T21:38:16" xmi.version="1.2">
+ <XMI.header>
+  <XMI.documentation>
+   <XMI.exporter>umbrello uml modeller http://umbrello.kde.org</XMI.exporter>
+   <XMI.exporterVersion>1.6.13</XMI.exporterVersion>
+   <XMI.exporterEncoding>UnicodeUTF8</XMI.exporterEncoding>
+  </XMI.documentation>
+  <XMI.metamodel xmi.name="UML" href="UML.xml" xmi.version="1.4"/>
+ </XMI.header>
+ <XMI.content>
+  <UML:Model isAbstract="false" isSpecification="false" isRoot="false" name="UML-Modell" isLeaf="false" xmi.id="m1">
+   <UML:Namespace.ownedElement>
+    <UML:Stereotype isAbstract="false" namespace="m1" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="folder" xmi.id="folder"/>
+    <UML:Model isAbstract="false" namespace="m1" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="Logical View" xmi.id="Logical_View">
+     <UML:Namespace.ownedElement>
+      <UML:Package isAbstract="false" namespace="Logical_View" isSpecification="false" stereotype="folder" isRoot="false" visibility="public" isLeaf="false" name="Datatypes" xmi.id="Datatypes">
+       <UML:Namespace.ownedElement>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="char" xmi.id="u1kdoBlSUA41x"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="int" xmi.id="uN8g9ddNCThmT"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="float" xmi.id="uElDkZPwFPW9E"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="double" xmi.id="u6SjHI3kyeN8B"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="bool" xmi.id="u1o98m6q6BDhe"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="string" xmi.id="ubKrbOD9epolj"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="unsigned char" xmi.id="uBw7LlQKkrMIb"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="signed char" xmi.id="u5UuSlBDkrGMa"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="unsigned int" xmi.id="uEFrZYOPJsSFF"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="signed int" xmi.id="unojCqj0ibEjT"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="short int" xmi.id="uW5wGNXCoXDUP"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="unsigned short int" xmi.id="urcUm9pdc69gK"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="signed short int" xmi.id="umIe5EXKBNKWX"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="long int" xmi.id="uEOZIvgL0PPML"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="signed long int" xmi.id="uBEYUsNiwVMMr"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="unsigned long int" xmi.id="uuZITqy3Dv786"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="long double" xmi.id="uSn7jxCo6mSWs"/>
+        <UML:DataType isAbstract="false" namespace="Datatypes" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="wchar_t" xmi.id="uyXkMvnZ8ZQin"/>
+       </UML:Namespace.ownedElement>
+      </UML:Package>
+     </UML:Namespace.ownedElement>
+     <XMI.extension xmi.extender="umbrello">
+      <diagrams resolution="96">
+       <diagram xmi.id="uZFMOdIG99MWK" showscope="1" isopen="0" showpackage="0" canvaswidth="0" type="1" showopsig="0" localid="-1" showgrid="0" zoom="100" griddotcolor="#d3d3d3" showattsig="0" showpubliconly="0" name="Klassendiagramm" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" showops="1" linecolor="#000000" snapcsgrid="0" showatts="1" fillcolor="#e7c89b" snapgrid="0" backgroundcolor="#ffffff" snapy="25" textcolor="#000000" linewidth="0" showattribassocs="0" canvasheight="0" snapx="25" usefillcolor="1" documentation="" showstereotype="1">
+        <widgets/>
+        <messages/>
+        <associations/>
+       </diagram>
+       <diagram xmi.id="u0UdLo5BzZpCn" showscope="1" isopen="1" showpackage="0" canvaswidth="18518" type="5" showopsig="0" localid="-1" showgrid="0" zoom="93,57620873536673" griddotcolor="#d3d3d3" showattsig="0" showpubliconly="0" name="Telefon" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" showops="1" linecolor="#000000" snapcsgrid="0" showatts="1" fillcolor="#e7c89b" snapgrid="0" backgroundcolor="#ffffff" snapy="25" textcolor="#000000" linewidth="0" showattribassocs="0" canvasheight="7712.18" snapx="25" usefillcolor="1" documentation="" showstereotype="1">
+        <widgets>
+         <statewidget autoresize="1" xmi.id="udarL8shOy8ih" isinstance="0" y="-567" usesdiagramusefillcolor="0" localid="u9p4jO2kAOlJo" usesdiagramfillcolor="0" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#e7c89b" textcolor="#000000" linewidth="0" statetype="1" statename="Wartezustand" x="-378" usefillcolor="1" documentation="" width="114" showstereotype="1" height="28">
+          <Activities/>
+         </statewidget>
+         <statewidget autoresize="1" xmi.id="ueygILLTdeTMC" isinstance="0" y="-572" usesdiagramusefillcolor="0" localid="uELdF7utiRDWW" usesdiagramfillcolor="0" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#e7c89b" textcolor="#000000" linewidth="0" statetype="1" statename="Wählzustand" x="196" usefillcolor="1" documentation="" width="109" showstereotype="1" height="28">
+          <Activities/>
+         </statewidget>
+         <statewidget autoresize="1" xmi.id="uJwU4yOLKP52e" isinstance="0" y="-445" usesdiagramusefillcolor="0" localid="uyKrHImUCu3xk" usesdiagramfillcolor="0" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" fillcolor="#e7c89b" textcolor="#000000" linewidth="0" statetype="1" statename="Wartezustand zum Wählen" x="-415" usefillcolor="1" documentation="" width="204" showstereotype="1" height="28">
+          <Activities/>
+         </statewidget>
+         <statewidget autoresize="1" xmi.id="uKWrHiGDC49zt" isinstance="0" y="-818" usesdiagramusefillcolor="0" localid="uEMjEsGS1QJuu" usesdiagramfillcolor="0" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#e7c89b" textcolor="#000000" linewidth="0" statetype="1" statename="Klingelzustand" x="-316" usefillcolor="1" documentation="" width="124" showstereotype="1" height="28">
+          <Activities/>
+         </statewidget>
+         <statewidget autoresize="1" xmi.id="uKEyttUkaTzre" isinstance="0" y="-692" usesdiagramusefillcolor="0" localid="umcIEBucDw3zL" usesdiagramfillcolor="0" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#e7c89b" textcolor="#000000" linewidth="0" statetype="1" statename="Verbindungsszustand" x="176" usefillcolor="1" documentation="" width="176" showstereotype="1" height="28">
+          <Activities/>
+         </statewidget>
+         <statewidget autoresize="0" xmi.id="uOENe18pn5uhr" isinstance="0" y="-817" usesdiagramusefillcolor="0" localid="uWbMkBARy0Z62" usesdiagramfillcolor="0" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#e7c89b" textcolor="#000000" linewidth="0" statetype="1" statename="Gesprächszustand" x="188" usefillcolor="1" documentation="" width="153" showstereotype="1" height="28">
+          <Activities/>
+         </statewidget>
+         <statewidget autoresize="1" xmi.id="uAfWjawVVvYl7" isinstance="0" y="-559" usesdiagramusefillcolor="0" localid="uNKhB5falsFhA" usesdiagramfillcolor="0" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#e7c89b" textcolor="#000000" linewidth="0" statetype="0" statename="State" x="-483" usefillcolor="1" documentation="" width="10" showstereotype="1" height="10">
+          <Activities/>
+         </statewidget>
+        </widgets>
+        <messages/>
+        <associations>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="uKWrHiGDC49zt" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="udarL8shOy8ih" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Spline">
+           <startpoint startx="-371" starty="-539"/>
+           <endpoint endx="-316" endy="-790"/>
+           <point x="-371" y="-521.13"/>
+           <point x="-371" y="-751.87"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="uYLmPGa6XDWG3" isinstance="0" y="-683.935" pretext="" usesdiagramusefillcolor="1" posttext="" localid="uoGv0S0CMXknT" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Anruf geht ein/Telefon klingelt" fillcolor="none" textcolor="none" linewidth="0" x="-595.5" usefillcolor="1" width="218" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="uOENe18pn5uhr" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="uKEyttUkaTzre" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="267.5" starty="-692"/>
+           <endpoint endx="267.5" endy="-789"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="uLFzkx3rPvn8A" isinstance="0" y="-757" pretext="" usesdiagramusefillcolor="1" posttext="" localid="u94p1bLnNPg24" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Gegenstelle nimmt den Hörer ab/Verbindung ist hergestellt" fillcolor="none" textcolor="none" linewidth="0" x="267.5" usefillcolor="1" width="423" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="uOENe18pn5uhr" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="uKWrHiGDC49zt" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="-192" starty="-802"/>
+           <endpoint endx="188" endy="-802"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="uJGeXFTFv2pp6" isinstance="0" y="-832" pretext="" usesdiagramusefillcolor="1" posttext="" localid="un5HsiTlG9Umb" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="nehme den Hörer ab/Verbindung ist hergestellt" fillcolor="none" textcolor="none" linewidth="0" x="-182" usefillcolor="1" width="339" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="uJwU4yOLKP52e" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="udarL8shOy8ih" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="-287" starty="-539"/>
+           <endpoint endx="-287" endy="-445"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="ugy63fak8J9rV" isinstance="0" y="-496" pretext="" usesdiagramusefillcolor="1" posttext="" localid="uoIkXW4TPlGMn" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Hörer abnehmen" fillcolor="none" textcolor="none" linewidth="0" x="-287" usefillcolor="1" width="128" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="udarL8shOy8ih" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="uJwU4yOLKP52e" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="-344" starty="-445"/>
+           <endpoint endx="-344" endy="-539"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="uaVX32cOtQllF" isinstance="0" y="-493" pretext="" usesdiagramusefillcolor="1" posttext="" localid="u6CLC6LIwLDuG" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Hörer auflegen" fillcolor="none" textcolor="none" linewidth="0" x="-468" usefillcolor="1" width="114" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="1" roleAdoc="" widgetbid="udarL8shOy8ih" type="514" usesdiagramfillcolor="1" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="none" visibilityA="0" changeabilityB="900" textcolor="none" linewidth="0" widgetaid="uAfWjawVVvYl7" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="-473" starty="-555"/>
+           <endpoint endx="-378" endy="-555"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="ueygILLTdeTMC" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="0" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="ueygILLTdeTMC" seqnum="" visibilityB="0" totalcountb="0" indexa="0" usefillcolor="1" documentation="" indexb="0">
+          <linepath layout="Polyline">
+           <startpoint startx="223.25" starty="-544"/>
+           <endpoint endx="277.75" endy="-544"/>
+           <point x="223.25" y="-494"/>
+           <point x="277.75" y="-494"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="uD8DoTrG7uUvC" isinstance="0" y="-484" pretext="" usesdiagramusefillcolor="1" posttext="" localid="ujDC5PPkdWP8e" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Taste drücken/Vermittlungsstelle sucht Nummer" fillcolor="none" textcolor="none" linewidth="0" x="150.5" usefillcolor="1" width="346" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="udarL8shOy8ih" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="uOENe18pn5uhr" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="188" starty="-789"/>
+           <endpoint endx="-264" endy="-567"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="ufUtBec5hA8vp" isinstance="0" y="-752.805" pretext="" usesdiagramusefillcolor="1" posttext="" localid="uWkD2fGW8Z5vc" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Hörer auflegen/Gespräch ist beendet" fillcolor="none" textcolor="none" linewidth="0" x="-195.091" usefillcolor="1" width="270" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="uKEyttUkaTzre" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="ueygILLTdeTMC" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="208" starty="-572"/>
+           <endpoint endx="208" endy="-664"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="ucqHukSUztg8g" isinstance="0" y="-628" pretext="" usesdiagramusefillcolor="1" posttext="" localid="ulDN4rmuBO0mm" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Verbindungsstelle findet Nummer" fillcolor="none" textcolor="none" linewidth="0" x="208" usefillcolor="1" width="243" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="udarL8shOy8ih" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="ueygILLTdeTMC" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="196" starty="-557"/>
+           <endpoint endx="-264" endy="-557"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="ufOMZeWYEySyX" isinstance="0" y="-554" pretext="" usesdiagramusefillcolor="1" posttext="" localid="usQBevqzeaAMX" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Hörer auflegen" fillcolor="none" textcolor="none" linewidth="0" x="-31.5" usefillcolor="1" width="114" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="udarL8shOy8ih" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="uKWrHiGDC49zt" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Polyline">
+           <startpoint startx="-297" starty="-790"/>
+           <endpoint endx="-297" endy="-567"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="uzSocTk3qYP91" isinstance="0" y="-678.5" pretext="" usesdiagramusefillcolor="1" posttext="" localid="uVGcowCQ6bruW" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Hörer auflegen" fillcolor="none" textcolor="none" linewidth="0" x="-297" usefillcolor="1" width="114" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="ueygILLTdeTMC" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="uJwU4yOLKP52e" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Spline">
+           <startpoint startx="-211" starty="-417"/>
+           <endpoint endx="196" endy="-544"/>
+           <point x="103.54" y="-411"/>
+           <point x="147" y="-539"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="uSapbd5QKo5kB" isinstance="0" y="-418" pretext="" usesdiagramusefillcolor="1" posttext="" localid="uUVnPPgc7nzal" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="(erste) Taste drücken" fillcolor="none" textcolor="none" linewidth="0" x="-139.73" usefillcolor="1" width="158" showstereotype="1" height="22"/>
+         </assocwidget>
+         <assocwidget autoresize="1" changeabilityA="900" usesdiagramusefillcolor="0" roleAdoc="" widgetbid="udarL8shOy8ih" type="514" usesdiagramfillcolor="0" roleBdoc="" totalcounta="2" font="Liberation Sans,12,-1,5,50,0,0,0,0,0" linecolor="#000000" fillcolor="#ffff00" visibilityA="0" changeabilityB="900" textcolor="#000000" linewidth="0" widgetaid="uKEyttUkaTzre" seqnum="" visibilityB="0" totalcountb="2" indexa="1" usefillcolor="1" documentation="" indexb="1">
+          <linepath layout="Orthogonal">
+           <startpoint startx="176" starty="-664"/>
+           <endpoint endx="-264" endy="-567"/>
+          </linepath>
+          <floatingtext autoresize="1" xmi.id="ugWq7LKIqEgDc" isinstance="0" y="-684" pretext="" usesdiagramusefillcolor="1" posttext="" localid="u28jHtEGbRU8z" usesdiagramfillcolor="1" role="703" font="Liberation Sans,12,-1,5,50,0,0,0,0,0,Regular" linecolor="#000000" text="Hörer auflegen" fillcolor="none" textcolor="none" linewidth="0" x="-16.5" usefillcolor="1" width="114" showstereotype="1" height="22"/>
+         </assocwidget>
+        </associations>
+       </diagram>
+      </diagrams>
+     </XMI.extension>
+    </UML:Model>
+    <UML:Model isAbstract="false" namespace="m1" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="Use Case View" xmi.id="Use_Case_View">
+     <UML:Namespace.ownedElement/>
+    </UML:Model>
+    <UML:Model isAbstract="false" namespace="m1" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="Component View" xmi.id="Component_View">
+     <UML:Namespace.ownedElement/>
+    </UML:Model>
+    <UML:Model isAbstract="false" namespace="m1" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="Deployment View" xmi.id="Deployment_View">
+     <UML:Namespace.ownedElement/>
+    </UML:Model>
+    <UML:Model isAbstract="false" namespace="m1" isSpecification="false" isRoot="false" visibility="public" isLeaf="false" name="Entity Relationship Model" xmi.id="Entity_Relationship_Model">
+     <UML:Namespace.ownedElement/>
+    </UML:Model>
+   </UML:Namespace.ownedElement>
+  </UML:Model>
+ </XMI.content>
+ <XMI.extensions xmi.extender="umbrello">
+  <docsettings viewid="u0UdLo5BzZpCn" documentation="" uniqueid="ufUtBec5hA8vp"/>
+  <listview>
+   <listitem type="800" id="Views" open="1">
+    <listitem type="802" id="Use_Case_View" open="1"/>
+    <listitem type="836" id="Entity_Relationship_Model" open="1"/>
+    <listitem type="821" id="Component_View" open="1"/>
+    <listitem type="801" id="Logical_View" open="1">
+     <listitem type="830" id="Datatypes" open="0">
+      <listitem type="829" id="u1o98m6q6BDhe" open="1"/>
+      <listitem type="829" id="u1kdoBlSUA41x" open="1"/>
+      <listitem type="829" id="u6SjHI3kyeN8B" open="1"/>
+      <listitem type="829" id="uElDkZPwFPW9E" open="1"/>
+      <listitem type="829" id="uN8g9ddNCThmT" open="1"/>
+      <listitem type="829" id="uSn7jxCo6mSWs" open="1"/>
+      <listitem type="829" id="uEOZIvgL0PPML" open="1"/>
+      <listitem type="829" id="uW5wGNXCoXDUP" open="1"/>
+      <listitem type="829" id="u5UuSlBDkrGMa" open="1"/>
+      <listitem type="829" id="unojCqj0ibEjT" open="1"/>
+      <listitem type="829" id="uBEYUsNiwVMMr" open="1"/>
+      <listitem type="829" id="umIe5EXKBNKWX" open="1"/>
+      <listitem type="829" id="ubKrbOD9epolj" open="1"/>
+      <listitem type="829" id="uBw7LlQKkrMIb" open="1"/>
+      <listitem type="829" id="uEFrZYOPJsSFF" open="1"/>
+      <listitem type="829" id="uuZITqy3Dv786" open="1"/>
+      <listitem type="829" id="urcUm9pdc69gK" open="1"/>
+      <listitem type="829" id="uyXkMvnZ8ZQin" open="1"/>
+     </listitem>
+     <listitem type="807" id="uZFMOdIG99MWK" open="0" label="Klassendiagramm"/>
+     <listitem type="808" id="u0UdLo5BzZpCn" open="0" label="Telefon"/>
+    </listitem>
+    <listitem type="827" id="Deployment_View" open="1"/>
+   </listitem>
+  </listview>
+  <codegeneration>
+   <codegenerator language="C++"/>
+  </codegeneration>
+ </XMI.extensions>
+</XMI>
