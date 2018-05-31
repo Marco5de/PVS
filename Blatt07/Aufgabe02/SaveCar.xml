@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cars>
+  <car car="1">
+    <licenseplate>CR-MD-5</licenseplate>
+    <productiondate>16.05.1998</productiondate>
+    <numberpassengers>4</numberpassengers>
+    <numberwheels>4</numberwheels>
+    <numberdoors>4</numberdoors>
+  </car>
+  <car2 car2="2">
+    <licenseplate>UL-M-5</licenseplate>
+    <productiondate>11.03.2002</productiondate>
+    <numberpassengers>10</numberpassengers>
+    <numberwheels>2</numberwheels>
+    <numberdoors>5</numberdoors>
+  </car2>
+</cars>
