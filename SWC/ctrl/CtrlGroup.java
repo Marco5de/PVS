@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -113,5 +114,66 @@ public class CtrlGroup {
 			i++;
 		}
 		CtrlFinals.createDefaultFinals(worldCup);
-	}	
+	}
+
+	/**
+	 * Calculate the game results of the members of
+	 * a group - played, won/lost games, points, goals
+	 * etc. This method ignores unplayed games.
+	 * 
+	 * @param group - Group
+	 */
+	public static void calculateGroupTable(Group group) {
+		/*
+		 * Local parameters for the teams and games.
+		 */
+		Vector<Team> teams = group.getTeams();
+		Vector<Game> games = group.getGames();
+		// Reset all parameters.
+		for(Team team: teams)
+			team.clearTeam();
+
+		// Look through the games.
+		for(Game game: games) {
+			// Ignore unplayed ones.
+			if(!game.isPlayed())
+				continue;
+
+			Team home = game.getTeamG(),
+					guest = game.getTeamH();
+			// Update played.
+			home.setPlayed(home.getPlayed()+1);
+			guest.setPlayed(guest.getPlayed()+1);
+
+			// Add the goals for and against to each team.
+			home.setGf(home.getGf()+game.getGoalsH());
+			home.setGa(home.getGa()+game.getGoalsG());
+			guest.setGf(guest.getGf()+game.getGoalsG());
+			guest.setGa(guest.getGa()+game.getGoalsH());
+
+			/*
+			 * Determine whether the home team or the guest team
+			 * has won. Otherwise consider the game to be a draw.
+			 */
+			int goalDiff = game.getGoalsH()-game.getGoalsG();
+			if(goalDiff > 0) {
+				home.setWon(home.getWon()+1);
+				home.setPoints(home.getPoints()+3);
+				guest.setLoss(guest.getLoss()+1);
+			}
+			else if(goalDiff < 0) {
+				guest.setWon(guest.getWon()+1);
+				guest.setPoints(guest.getPoints()+3);
+				home.setLoss(home.getLoss()+1);
+			}
+			else {
+				home.setDraw(home.getDraw()+1);
+				home.setPoints(home.getPoints()+1);
+				guest.setDraw(guest.getDraw()+1);
+				guest.setPoints(guest.getPoints()+1);
+			}
+		}
+		// Finally, sort the list.
+		Collections.sort(teams);
+	}
 }
