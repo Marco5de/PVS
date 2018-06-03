@@ -4,14 +4,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
-import swc.ctrl.CtrlFinals;
-import swc.ctrl.CtrlGroup;
-import swc.data.Final;
-import swc.data.Game;
-import swc.data.SoccerWC;
-import swc.data.Team;
+import swc.ctrl.*;
+import swc.data.*;
 
 /**
  * GroupPanel shows all games after the group
@@ -58,7 +53,7 @@ public class FinalsPanel extends JPanel {
 		GameModel model = new GameModel(finals.getRoundOf16());
 		JTable table1 = new JTable(model);
 		table1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table1.addMouseListener(new FinalsEventHandler(model, table1, worldCup));
+		table1.addMouseListener(new FinalsEventHandler(model, table1, this));
 		JScrollPane scrollPane = new JScrollPane(table1);
 		add(scrollPane);
 
@@ -69,7 +64,7 @@ public class FinalsPanel extends JPanel {
 		model = new GameModel(finals.getQuarterFinals());
 		JTable table2 = new JTable(model);
 		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table2.addMouseListener(new FinalsEventHandler(model, table2, worldCup));
+		table2.addMouseListener(new FinalsEventHandler(model, table2, this));
 		scrollPane = new JScrollPane(table2);
 		add(scrollPane);
 
@@ -80,7 +75,7 @@ public class FinalsPanel extends JPanel {
 		model = new GameModel(finals.getSemiFinals());
 		JTable table3 = new JTable(model);
 		table3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table3.addMouseListener(new FinalsEventHandler(model, table3, worldCup));
+		table3.addMouseListener(new FinalsEventHandler(model, table3, this));
 		scrollPane = new JScrollPane(table3);
 		add(scrollPane);
 
@@ -90,7 +85,7 @@ public class FinalsPanel extends JPanel {
 		add(labelPlaceHolder);
 		model = new GameModel(finals.getThirdGame());
 		JTable table4 = new JTable(model);
-		table4.addMouseListener(new FinalsEventHandler(model, table4, worldCup));
+		table4.addMouseListener(new FinalsEventHandler(model, table4, this));
 		scrollPane = new JScrollPane(table4);
 		add(scrollPane);
 
@@ -100,7 +95,7 @@ public class FinalsPanel extends JPanel {
 		add(labelPlaceHolder);
 		model = new GameModel(finals.getFinalGame());
 		JTable table5 = new JTable(model);
-		table5.addMouseListener(new FinalsEventHandler(model, table5, worldCup));
+		table5.addMouseListener(new FinalsEventHandler(model, table5, this));
 		scrollPane = new JScrollPane(table5);
 		add(scrollPane);
 
@@ -130,7 +125,7 @@ public class FinalsPanel extends JPanel {
 	 * Update the panel which shows the name and flag
 	 * of the world cup winner.
 	 */
-	private void setWinner() {
+	void setWinner() {
 		Final finals = worldCup.getFinals();
 		// Get the finals winner and his icon.
 		Game finalGame = finals.getFinalGame();
@@ -150,6 +145,14 @@ public class FinalsPanel extends JPanel {
 		winner.add(w1);
 		winner.add(w2);
 	}
+
+	/**
+	 * Return the world cup object to display.
+	 * @return worldCup
+	 */
+	public SoccerWC getWorldCup() {
+		return worldCup;
+	}
 }
 
 /**
@@ -161,19 +164,19 @@ public class FinalsPanel extends JPanel {
  */
 class FinalsEventHandler extends EventHandler {
 	/**
-	 * A world cup to operate on.
+	 * A FinalsPanel to operate on.
 	 */
-	private SoccerWC worldCup;
+	private FinalsPanel hostPanel;
 
 	/**
 	 * Create a new FinalsEventHandler.
 	 * @param model GameModel
 	 * @param table JTable
-	 * @param worldCup SoccerWC
+	 * @param hostPanel FinalsPanel
 	 */
-	public FinalsEventHandler(GameModel model, JTable table, SoccerWC worldCup) {
+	public FinalsEventHandler(GameModel model, JTable table, FinalsPanel hostPanel) {
 		super(model, table);
-		this.worldCup = worldCup;
+		this.hostPanel = hostPanel;
 	}
 
 	/**
@@ -200,7 +203,9 @@ class FinalsEventHandler extends EventHandler {
 		game.setGoalsH(newGoalValues[0]);
 		game.setGoalsG(newGoalValues[1]);
 		game.setPlayed(true);
-		// Resort the finals.
-		CtrlFinals.calculateFinals(worldCup);
+		// Calculate the finals.
+		CtrlFinals.calculateFinals(hostPanel.getWorldCup());
+		// Determine the winner.
+		hostPanel.setWinner();
 	}
 }

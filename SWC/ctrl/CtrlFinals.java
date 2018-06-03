@@ -145,8 +145,8 @@ public class CtrlFinals {
 		 * round of 16.
 		 * Use two lists to assign teams.
 		 */
-		int [] listHome = {0, 2, 3, 1, 4, 6, 5, 7},
-				listGuest = {1, 3, 2, 0, 5, 7, 4, 6};
+		int [] listHome = {0, 2, 1, 3, 4, 6, 5, 7},
+				listGuest = {1, 3, 0, 2, 5, 7, 4, 6};
 		for(int i = 0; i < 8; i++) {
 			Game game = dummyFinals.getRoundOf16().elementAt(i);
 			game.setTeamH(worldCup.getGroups().get(listHome[i]).getTeams().get(0));
@@ -171,8 +171,8 @@ public class CtrlFinals {
 		 * Also, those games must be played before the quarter finals
 		 * can be calculated.
 		 */
-		int [] listHome2 = {4, 0, 3, 6},
-		listGuest2 = {5, 1, 2, 7};
+		int [] listHome2 = {0, 4, 2, 6},
+		listGuest2 = {1, 5, 3, 7};
 		for(int i = 0; i < 4; i++) {
 			Game quarterFinal = dummyFinals.getQuarterFinals().get(i),
 					homeGame = finals.getRoundOf16().get(listHome2[i]),
@@ -186,9 +186,9 @@ public class CtrlFinals {
 				quarterFinal.setTeamH(homeGame.getTeamG());
 
 			if(homeTeamWins(guestGame)) 
-				quarterFinal.setTeamH(guestGame.getTeamH());
+				quarterFinal.setTeamG(guestGame.getTeamH());
 			else
-				quarterFinal.setTeamH(guestGame.getTeamG());
+				quarterFinal.setTeamG(guestGame.getTeamG());
 			dummyFinals.getQuarterFinals().set(i, quarterFinal);
 		}
 
@@ -206,7 +206,7 @@ public class CtrlFinals {
 		/*
 		 * Step 3: Calculate the members of the semifinals.
 		 */
-		int [] listHome3 = {1, 0},
+		int [] listHome3 = {0, 1},
 				listGuest3 = {2, 3};
 		for(int i = 0; i < 2; i++) {
 			Game semifinal = dummyFinals.getSemiFinals().get(i),
@@ -222,9 +222,9 @@ public class CtrlFinals {
 				semifinal.setTeamH(homeGame.getTeamG());
 
 			if(homeTeamWins(guestGame)) 
-				semifinal.setTeamH(guestGame.getTeamH());
+				semifinal.setTeamG(guestGame.getTeamH());
 			else
-				semifinal.setTeamH(guestGame.getTeamG());
+				semifinal.setTeamG(guestGame.getTeamG());
 			dummyFinals.getSemiFinals().set(i, semifinal);
 		}
 

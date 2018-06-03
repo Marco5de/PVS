@@ -3,7 +3,10 @@ package swc.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import swc.ctrl.CtrlFinals;
 import swc.ctrl.CtrlGroup;
 import swc.data.SoccerWC;
 
@@ -116,6 +119,20 @@ public class Mainframe extends JFrame implements ActionListener{
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(statusPanel, BorderLayout.NORTH);
 		mainPanel.add(tabPane, BorderLayout.CENTER);
+		/*
+		 * Add a change listener which will trigger
+		 * the recalculation of the finals.
+		 */
+		tabPane.addChangeListener(new ChangeListener() {
+			// The last tab should be the finals tab.
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				int index = tabPane.getSelectedIndex();
+				if(index == tabPane.getTabCount() - 1) {
+					CtrlFinals.calculateFinals(worldCup);
+				}
+			}
+		});
 
 		// Add the menu and the main content panel.
 		getContentPane().add(bar, BorderLayout.NORTH);
@@ -158,7 +175,6 @@ public class Mainframe extends JFrame implements ActionListener{
 			tabPane.addTab(group.getStrGroupName(), new GroupPanel(group));
 		}
 		tabPane.addTab("Finals", new FinalsPanel(worldCup));
-
 		worldName.setText(worldCup.getName());
 		statusText.setText(message);
 	}
