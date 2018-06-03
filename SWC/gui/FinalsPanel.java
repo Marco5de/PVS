@@ -1,13 +1,16 @@
 package swc.gui;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import swc.ctrl.CtrlFinals;
 import swc.ctrl.CtrlGroup;
 import swc.data.Final;
 import swc.data.Game;
+import swc.data.SoccerWC;
 import swc.data.Team;
 
 /**
@@ -24,9 +27,9 @@ public class FinalsPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -7127416300548189567L;
 	/**
-	 * The Final object from which we get data.
+	 * The SoccerWC object from which we get data.
 	 */
-	private Final finals;
+	private SoccerWC worldCup;
 	/**
 	 * A JPanel containing information about the winner.
 	 */
@@ -34,11 +37,12 @@ public class FinalsPanel extends JPanel {
 
 	/**
 	 * Create a FinalsPanel.
-	 * @param finals - Final
+	 * @param worldCup - SoccerWC
 	 */
-	public FinalsPanel(Final finals) {
+	public FinalsPanel(SoccerWC worldCup) {
 		// Prepare this panel. Use the BoxLayout.
-		this.finals = finals;
+		this.worldCup = worldCup;
+		Final finals = worldCup.getFinals();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		Font font = new Font(null, Font.BOLD, 14);
 
@@ -54,7 +58,7 @@ public class FinalsPanel extends JPanel {
 		GameModel model = new GameModel(finals.getRoundOf16());
 		JTable table1 = new JTable(model);
 		table1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table1.addMouseListener(new GameEventHandler(model, table1));
+		table1.addMouseListener(new FinalsEventHandler(model, table1, worldCup));
 		JScrollPane scrollPane = new JScrollPane(table1);
 		add(scrollPane);
 
@@ -65,7 +69,7 @@ public class FinalsPanel extends JPanel {
 		model = new GameModel(finals.getQuarterFinals());
 		JTable table2 = new JTable(model);
 		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table2.addMouseListener(new GameEventHandler(model, table2));
+		table2.addMouseListener(new FinalsEventHandler(model, table2, worldCup));
 		scrollPane = new JScrollPane(table2);
 		add(scrollPane);
 
@@ -76,7 +80,7 @@ public class FinalsPanel extends JPanel {
 		model = new GameModel(finals.getSemiFinals());
 		JTable table3 = new JTable(model);
 		table3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table3.addMouseListener(new GameEventHandler(model, table3));
+		table3.addMouseListener(new FinalsEventHandler(model, table3, worldCup));
 		scrollPane = new JScrollPane(table3);
 		add(scrollPane);
 
@@ -86,7 +90,7 @@ public class FinalsPanel extends JPanel {
 		add(labelPlaceHolder);
 		model = new GameModel(finals.getThirdGame());
 		JTable table4 = new JTable(model);
-		table4.addMouseListener(new GameEventHandler(model, table4));
+		table4.addMouseListener(new FinalsEventHandler(model, table4, worldCup));
 		scrollPane = new JScrollPane(table4);
 		add(scrollPane);
 
@@ -96,7 +100,7 @@ public class FinalsPanel extends JPanel {
 		add(labelPlaceHolder);
 		model = new GameModel(finals.getFinalGame());
 		JTable table5 = new JTable(model);
-		table5.addMouseListener(new GameEventHandler(model, table5));
+		table5.addMouseListener(new FinalsEventHandler(model, table5, worldCup));
 		scrollPane = new JScrollPane(table5);
 		add(scrollPane);
 
@@ -127,6 +131,7 @@ public class FinalsPanel extends JPanel {
 	 * of the world cup winner.
 	 */
 	private void setWinner() {
+		Final finals = worldCup.getFinals();
 		// Get the finals winner and his icon.
 		Game finalGame = finals.getFinalGame();
 		Team finalsWinner = finalGame.getTeamH();
@@ -144,5 +149,58 @@ public class FinalsPanel extends JPanel {
 		JLabel w2 = new JLabel(winnerIcon);
 		winner.add(w1);
 		winner.add(w2);
+	}
+}
+
+/**
+ * FinalsEventHandler can also recalculate
+ * which teams get into the final games.
+ * 
+ * @author Deuscher Marco
+ * @author Jutz Benedikt
+ */
+class FinalsEventHandler extends EventHandler {
+	/**
+	 * A world cup to operate on.
+	 */
+	private SoccerWC worldCup;
+
+	/**
+	 * Create a new FinalsEventHandler.
+	 * @param model GameModel
+	 * @param table JTable
+	 * @param worldCup SoccerWC
+	 */
+	public FinalsEventHandler(GameModel model, JTable table, SoccerWC worldCup) {
+		super(model, table);
+		this.worldCup = worldCup;
+	}
+
+	/**
+	 * When double clicked, open a EditGameDialog to
+	 * type in the goals shot in a game.
+	 * @param e MouseEvent
+	 */
+	public void mouseClicked(MouseEvent e) {
+		if(e.getClickCount() < 2)
+			return;
+
+		int selectedRow = table.getSelectedRow();
+		Game game = model.getGames().get(selectedRow);
+
+		// Only change the values in the Game class.
+		int [] newGoalValues = EditGameDialog.getNewGoalCount(game);
+		if(newGoalValues == null)
+			return;
+		if(newGoalValues[0] == newGoalValues[1]) {
+			JOptionPane.showMessageDialog(null, "No draw is possible in a finals match", "Input error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		game.setGoalsH(newGoalValues[0]);
+		game.setGoalsG(newGoalValues[1]);
+		game.setPlayed(true);
+		// Resort the finals.
+		CtrlFinals.calculateFinals(worldCup);
 	}
 }

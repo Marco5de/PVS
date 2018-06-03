@@ -139,8 +139,8 @@ public class CtrlGroup {
 			if(!game.isPlayed())
 				continue;
 
-			Team home = game.getTeamG(),
-					guest = game.getTeamH();
+			Team home = game.getTeamH(),
+					guest = game.getTeamG();
 			// Update played.
 			home.setPlayed(home.getPlayed()+1);
 			guest.setPlayed(guest.getPlayed()+1);

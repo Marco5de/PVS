@@ -189,7 +189,96 @@ public class CtrlFinals {
 				quarterFinal.setTeamH(guestGame.getTeamH());
 			else
 				quarterFinal.setTeamH(guestGame.getTeamG());
+			dummyFinals.getQuarterFinals().set(i, quarterFinal);
 		}
+
+		/*
+		 * Again, check whether recalculation of
+		 * quarter final teams is needed.
+		 */
+		for(int i = 0; i < 4; i++) {
+			Game gameOld2 = finals.getQuarterFinals().get(i),
+					gameNew2 = dummyFinals.getQuarterFinals().get(i);
+			if(!teamsAreShared(gameOld2, gameNew2))
+				finals.getQuarterFinals().set(i, gameNew2);
+		}
+
+		/*
+		 * Step 3: Calculate the members of the semifinals.
+		 */
+		int [] listHome3 = {1, 0},
+				listGuest3 = {2, 3};
+		for(int i = 0; i < 2; i++) {
+			Game semifinal = dummyFinals.getSemiFinals().get(i),
+					homeGame = finals.getQuarterFinals().get(listHome3[i]),
+					guestGame = finals.getQuarterFinals().get(listGuest3[i]);
+
+			if(!homeGame.isPlayed() || !guestGame.isPlayed())
+				continue;
+
+			if(homeTeamWins(homeGame)) 
+				semifinal.setTeamH(homeGame.getTeamH());
+			else
+				semifinal.setTeamH(homeGame.getTeamG());
+
+			if(homeTeamWins(guestGame)) 
+				semifinal.setTeamH(guestGame.getTeamH());
+			else
+				semifinal.setTeamH(guestGame.getTeamG());
+			dummyFinals.getSemiFinals().set(i, semifinal);
+		}
+
+		/*
+		 * Again, check whether recalculation of
+		 * quarter final teams is needed.
+		 */
+		for(int i = 0; i < 2; i++) {
+			Game gameOld3 = finals.getSemiFinals().get(i),
+					gameNew3 = dummyFinals.getSemiFinals().get(i);
+			if(!teamsAreShared(gameOld3, gameNew3))
+				finals.getSemiFinals().set(i, gameNew3);
+		}
+
+		for(Game semifinal: finals.getSemiFinals())
+			if(!semifinal.isPlayed())
+				return;
+		/*
+		 * Do calculations for the match for third place,
+		 * and for the actual finals.
+		 */
+		Game semifinal1 = finals.getSemiFinals().get(0),
+				semifinal2 = finals.getSemiFinals().get(1);
+		if(homeTeamWins(semifinal1)) {
+			dummyFinals.getFinalGame().setTeamH(semifinal1.getTeamH());
+			dummyFinals.getThirdGame().setTeamH(semifinal1.getTeamG());
+		}
+		else {
+			dummyFinals.getFinalGame().setTeamH(semifinal1.getTeamG());
+			dummyFinals.getThirdGame().setTeamH(semifinal1.getTeamH());
+		}
+		if(homeTeamWins(semifinal2)) {
+			dummyFinals.getFinalGame().setTeamG(semifinal2.getTeamH());
+			dummyFinals.getThirdGame().setTeamG(semifinal2.getTeamG());
+		}
+		else {
+			dummyFinals.getFinalGame().setTeamG(semifinal2.getTeamG());
+			dummyFinals.getThirdGame().setTeamG(semifinal2.getTeamH());
+		}
+
+		if(!teamsAreShared(finals.getThirdGame(), dummyFinals.getThirdGame()))
+			finals.setThirdGame(dummyFinals.getThirdGame());
+		if(!teamsAreShared(finals.getFinalGame(), dummyFinals.getFinalGame()))
+			finals.setFinalGame(dummyFinals.getFinalGame());
+
+		/*
+		 * Determine the winner of the tournament.
+		 */
+		if(!finals.getFinalGame().isPlayed())
+			return;
+		if(homeTeamWins(finals.getFinalGame()))
+			finals.setWinner(finals.getFinalGame().getTeamH().getStrName());
+		else
+			finals.setWinner(finals.getFinalGame().getTeamG().getStrName());
 	}
 
 	private static boolean homeTeamWins(Game g) {

@@ -138,7 +138,7 @@ public class Mainframe extends JFrame implements ActionListener{
 			cd.setVisible(true);
 		}
 		else if(action.equals("About")) {
-			JOptionPane.showMessageDialog(this, "Soccer World Cup Milestone 3, \nDevelopers:\nDeuscher Marco and Jutz Benedikt", "About", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Soccer World Cup Milestone 4, \nDevelopers:\nDeuscher Marco and Jutz Benedikt", "About", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if(action.equals("Exit")) {
 			System.exit(0);
@@ -157,7 +157,7 @@ public class Mainframe extends JFrame implements ActionListener{
 		for(swc.data.Group group: worldCup.getGroups()) {
 			tabPane.addTab(group.getStrGroupName(), new GroupPanel(group));
 		}
-		tabPane.addTab("Finals", new FinalsPanel(worldCup.getFinals()));
+		tabPane.addTab("Finals", new FinalsPanel(worldCup));
 
 		worldName.setText(worldCup.getName());
 		statusText.setText(message);
