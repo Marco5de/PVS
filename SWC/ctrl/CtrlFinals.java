@@ -107,6 +107,7 @@ public class CtrlFinals {
 		
 		finalGame.getTeamH().setStrName(br.readLine());
 		finalGame.getTeamG().setStrName(br.readLine());
+		worldCup.getFinals().setWinner("No winner known");
 	}
 
 	/**
@@ -265,16 +266,29 @@ public class CtrlFinals {
 			dummyFinals.getThirdGame().setTeamG(semifinal2.getTeamH());
 		}
 
-		if(!teamsAreShared(finals.getThirdGame(), dummyFinals.getThirdGame()))
-			finals.setThirdGame(dummyFinals.getThirdGame());
-		if(!teamsAreShared(finals.getFinalGame(), dummyFinals.getFinalGame()))
-			finals.setFinalGame(dummyFinals.getFinalGame());
-
+		if(!teamsAreShared(finals.getThirdGame(), dummyFinals.getThirdGame())) {
+			Game thirdGame = finals.getThirdGame();
+			thirdGame.setGoalsG(0);
+			thirdGame.setGoalsH(0);
+			thirdGame.setTeamG(dummyFinals.getThirdGame().getTeamG());
+			thirdGame.setTeamH(dummyFinals.getThirdGame().getTeamH());
+			thirdGame.setPlayed(false);
+		}
+		if(!teamsAreShared(finals.getFinalGame(), dummyFinals.getFinalGame())) {
+			Game finalGame = finals.getFinalGame();
+			finalGame.setGoalsG(0);
+			finalGame.setGoalsH(0);
+			finalGame.setTeamG(dummyFinals.getFinalGame().getTeamG());
+			finalGame.setTeamH(dummyFinals.getFinalGame().getTeamH());
+			finalGame.setPlayed(false);
+		}
 		/*
 		 * Determine the winner of the tournament.
 		 */
-		if(!finals.getFinalGame().isPlayed())
+		if(!finals.getFinalGame().isPlayed()){
+			finals.setWinner("No winner known");
 			return;
+		}
 		if(homeTeamWins(finals.getFinalGame()))
 			finals.setWinner(finals.getFinalGame().getTeamH().getStrName());
 		else

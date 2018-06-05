@@ -126,13 +126,7 @@ public class FinalsPanel extends JPanel {
 	 * of the world cup winner.
 	 */
 	void setWinner() {
-		Final finals = worldCup.getFinals();
-		// Get the finals winner and his icon.
-		Game finalGame = finals.getFinalGame();
-		Team finalsWinner = finalGame.getTeamH();
-		if(finalGame.getGoalsG() > finalGame.getGoalsH())
-			finalsWinner = finalGame.getTeamG();
-		String winnerName = finalsWinner.getStrName();
+		String winnerName = worldCup.getFinals().getWinner();
 		ImageIcon winnerIcon = CtrlGroup.getFlagIcon(winnerName);
 
 		// Set up the panel.
