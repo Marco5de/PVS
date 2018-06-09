@@ -12,7 +12,7 @@ import swc.data.*;
 public class CtrlFinals {
 	/**
 	 * This field is used by the {@link #calculateFinals(SoccerWC)} method.
-	 * When set to true, no caclulation will take place before all
+	 * When set to true, no calculation will take place before all
 	 * teams have been completed.
 	 */
 	private static boolean demandCompleteTeams = false;
@@ -266,6 +266,10 @@ public class CtrlFinals {
 			dummyFinals.getThirdGame().setTeamG(semifinal2.getTeamH());
 		}
 
+		/*
+		 * If neccessary, recalculate who gets
+		 * to play in those matches.
+		 */
 		if(!teamsAreShared(finals.getThirdGame(), dummyFinals.getThirdGame())) {
 			Game thirdGame = finals.getThirdGame();
 			thirdGame.setGoalsG(0);
@@ -295,11 +299,25 @@ public class CtrlFinals {
 			finals.setWinner(finals.getFinalGame().getTeamG().getStrName());
 	}
 
+	/**
+	 * Determine whether the home team wins a match
+	 * (shoots more goals in a game), or the guest team.
+	 * @param g - Game
+	 * @return a boolean
+	 */
 	private static boolean homeTeamWins(Game g) {
 		int goalDiff = g.getGoalsH()-g.getGoalsG();
 		return (goalDiff > 0);
 	}
 
+	/**
+	 * Determine whether the same teams play
+	 * in two (different) games. Or rather, compare
+	 * the name strings of the host and guest teams.
+	 * @param g1 - Game
+	 * @param g2 - Game
+	 * @return a boolean
+	 */
 	private static boolean teamsAreShared(Game g1, Game g2) {
 		String home1 = g1.getTeamH().getStrName(),
 				home2 = g2.getTeamH().getStrName();

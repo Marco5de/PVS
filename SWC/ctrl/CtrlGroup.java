@@ -4,8 +4,10 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Vector;
@@ -13,13 +15,27 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
-import swc.data.Game;
-import swc.data.Group;
-import swc.data.SoccerWC;
-import swc.data.Team;
+import swc.data.*;
 
+/**
+ * CtrlGroup is used for:
+ * <li> Loading icons.
+ * <li> Loading the default teams and world cup
+ * for 2018.
+ * <li> Calculate the points, goals etc.
+ * for a group.
+ * 
+ * @author Deuscher Marco
+ * @author Jutz Benedikt
+ */
 public class CtrlGroup {
-	
+
+	/**
+	 * Load a icon from the file in "data/icon/"+name.
+	 * 
+	 * @param name - String
+	 * @return new {@link ImageIcon}
+	 */
 	public static ImageIcon getFlagIcon(String name){	
 		if(name.equals("default"))
 			return new ImageIcon("default");
@@ -34,12 +50,18 @@ public class CtrlGroup {
 		return new ImageIcon(imgUrl);
 	}
 
-	public static Image getMainWindowIcon(Toolkit tk) {
+	private static Image getMainWindowIcon(Toolkit tk) {
 		URL imgUrl = CtrlGroup.class.getResource("/data/icon/icon1.png");
 	    Image image = tk.getImage(imgUrl);
 	    return image;
 	}
 
+	/**
+	 * Loads the default team names from the file "data/config/teams.cfg".
+	 * 
+	 * @return Vector<String>
+	 * @throws IOException
+	 */
 	public static Vector<String> getDefaultTeams() throws IOException{
 		Vector<String> teams = new Vector<String>();
 		BufferedReader br = null;
@@ -60,6 +82,15 @@ public class CtrlGroup {
 		return teams;
 	}
 
+	/**
+	 * Sets up the default world cup configuration.
+	 * 
+	 * @param worldCup - SoccerWC
+	 * @param models - Vector<DefaultTeamModel>
+	 * @param name - String
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
 	public static void setNewWorldCup(SoccerWC worldCup,
 			Vector<DefaultListModel> models, String name) throws NumberFormatException, IOException {
 		// World Cup configuration

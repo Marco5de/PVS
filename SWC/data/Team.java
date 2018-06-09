@@ -88,6 +88,18 @@ public class Team implements Comparable<Team> {
     }
 
     @Override
+	public String toString() {
+		return this.getStrName()+","
+				+this.getPlayed()+","
+				+this.getWon()+","
+				+this.getDraw()+","
+				+this.getLoss()+","
+				+this.getGf()+","
+				+this.getGa()+","
+				+this.getPoints();
+	}
+
+    @Override
     public int compareTo(Team compTeam) {
         if(compTeam.points < this.points)
             return -1;
@@ -109,7 +121,12 @@ public class Team implements Comparable<Team> {
     }
 
     public void clearTeam(){
-
+    	this.ga = 0;
+    	this.gf = 0;
+    	this.played = 0;
+    	this.won = 0;
+    	this.draw = 0;
+    	this.loss = 0;
+    	this.points = 0;
     }
-
 }

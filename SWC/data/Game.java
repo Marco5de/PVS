@@ -91,6 +91,19 @@ public class Game {
     public void setTeamH(Team teamH) {
         this.teamH = teamH;
     }
+   
+    @Override
+	public String toString() {
+		return this.getIntId()+","
+				+this.getDate()+","
+				+this.getTime()+","
+				+this.getLocation()+","
+				+this.getTeamH().getStrName()+","
+				+this.getTeamG().getStrName()+","
+				+this.getGoalsH()+","
+				+this.getGoalsG()+","
+				+this.isPlayed();
+	}
 
     public void setTeamG(Team teamG) {
         this.teamG = teamG;
