@@ -1,0 +1,153 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage[ngerman]{babel}
+\usepackage{pgfplots}
+\usepackage{hyperref}
+\usepackage{pgfplotstable}
+\usepackage{csvsimple}
+\usepackage{float}
+\usepackage[caption = false]{subfig}
+\usepackage[final]{graphicx}
+
+
+\graphicspath{ {images/} }
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vfill
+    \includegraphics[width=13cm]{UniUlmLogo.PNG} % also works with logo.pdf
+    \vfill
+    \vfill
+    {\bfseries\Large
+        Programmierung von Systemen\\
+        Blatt 8\\
+        \vskip2cm
+        Marco Deuscher\\ \href{mailto:marco.deuscher@uni-ulm.de}{marco.deuscher@uni-ulm.de}\\
+        Benedikt Jutz\\ \href{benedikt.jutz@uni-ulm.de}{benedikt.jutz@uni-ulm.de}\\
+        \vfill
+    }    
+     Juni 2018
+    \vfill
+    \vfill
+    \vfill
+\end{titlepage}
+
+\section{Aufgabe: ER-Modellierung}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 12cm]{ER_Diagramm01.png}
+    \caption{ER-Modellierung}
+    \label{Versuch01_Aufbau01}
+\end{figure}
+
+In dem ER-Diagramm kann nicht dargestellt werden, dass der Skipper selbst wieder ein Crewmitglied ist. Im Oberen Diagramm ist das unsauber mit einer 'ist'-Beziehung dargestellt. Diese existiert so in einem ER-Diagramm aber nicht.
+\clearpage
+
+\section{Aufgabe: Datenbankschemata}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+         \bfseries\large{Schiff} & Name & Typ & Zulassungsnummer \\
+         \hline
+          & & & \\
+    \hline
+    \end{tabular}
+    \label{tabelle01}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+         \bfseries\large{Crewmitglied}&Crewmitglied-ID & Name & Adresse & E-Mail & Zulassungsnummer\\
+         \hline
+          & & & & & \\
+    \hline
+    \end{tabular}
+    \label{tabelle01}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+         \bfseries\large{Wettfahrt} & Wettfahrt-ID & Name & Ort & Datum\\
+         \hline
+          & & & &  \\
+    \hline
+    \end{tabular}
+    \label{tabelle01}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+         \bfseries\large{Skipper} & Zulassungsnummer & Crewmitglied-ID\\
+         \hline
+          & & \\
+    \hline
+    \end{tabular}
+    \label{tabelle01}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+         \bfseries\large{Wettfahrtteilnehmer} & Zulassungsnummer & Wettfahrt-ID\\
+         \hline
+          & & \\
+    \hline
+    \end{tabular}
+    \label{tabelle01}
+\end{table}
+
+\clearpage
+%Gewonnen ergänzen
+\section{Aufgabe: (min:max)-Notation}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 12cm]{ER_Diagramm021.png}
+    \caption{ER-Modellierung}
+    \label{Versuch01_Aufbau01}
+\end{figure}
+
+\section{Aufgabe: Relationenalgebra}
+\paragraph{a)}
+(\pi_{Teile.Bezeichnung}(\sigma_{Teile.Preis > 10€})(Teile))
+
+\paragraph{b)} (\pi_{Stadt}(Lieferanten \cup Bestellungen))\\
+
+
+\paragraph{c)} (\pi_{LiefName}(Lieferanten)) - (\pi_{KdName}(Bestellungen))
+
+\paragraph{d)}(\pi_{Bezeichnung}(Teile \bowtie_{Teile.TeileNr = Bestellungen.TeileNr} Bestellungen))
+
+\paragraph{e)} (\pi_{Bezeichnung}(\sigma_{Bestellungen.KdStadt = 'Berlin'\wedge Lieferaten.LiefName = 'AEG'}\\(Bestellungen \bowtie_{Bestellung.LiefNr = Lieferanten.LiefNr} Lieferanten \bowtie_{Teil.TeileNr = Bestellungen.TeileNr} Bestellungen)))
+
+
+
+
+
+
+
+
+
+
+\end{document}
