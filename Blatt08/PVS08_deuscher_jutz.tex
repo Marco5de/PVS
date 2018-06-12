@@ -123,7 +123,7 @@ In dem ER-Diagramm kann nicht dargestellt werden, dass der Skipper selbst wieder
 \section{Aufgabe: (min:max)-Notation}
 \begin{figure}[h]
     \centering
-    \includegraphics[width = 12cm]{ER_Diagramm021.png}
+    \includegraphics[width = 12cm]{ER_Diagramm02 (1).png}
     \caption{ER-Modellierung}
     \label{Versuch01_Aufbau01}
 \end{figure}
@@ -132,14 +132,14 @@ In dem ER-Diagramm kann nicht dargestellt werden, dass der Skipper selbst wieder
 \paragraph{a)}
 (\pi_{Teile.Bezeichnung}(\sigma_{Teile.Preis > 10€})(Teile))
 
-\paragraph{b)} (\pi_{Stadt}(Lieferanten \cup Bestellungen))\\
+\paragraph{b)} (\pi_{Lieferanten.LiefName}(Lieferanten) \cup \pi_{Bestellungen.KdName}(Bestellungen)\\
 
 
 \paragraph{c)} (\pi_{LiefName}(Lieferanten)) - (\pi_{KdName}(Bestellungen))
 
 \paragraph{d)}(\pi_{Bezeichnung}(Teile \bowtie_{Teile.TeileNr = Bestellungen.TeileNr} Bestellungen))
 
-\paragraph{e)} (\pi_{Bezeichnung}(\sigma_{Bestellungen.KdStadt = 'Berlin'\wedge Lieferaten.LiefName = 'AEG'}\\(Bestellungen \bowtie_{Bestellung.LiefNr = Lieferanten.LiefNr} Lieferanten \bowtie_{Teil.TeileNr = Bestellungen.TeileNr} Bestellungen)))
+\paragraph{e)} (\pi_{Bezeichnung}(\sigma_{Bestellungen.KdStadt = 'Berlin'\wedge Lieferaten.LiefName = 'AEG'}\\(Bestellungen \bowtie_{Bestellung.LiefNr = Lieferanten.LiefNr} Lieferanten \bowtie_{Teil.TeileNr = Bestellungen.TeileNr} Teile)))
 
 
 
