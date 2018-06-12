@@ -5,7 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import swc.ctrl.CtrlCSV;
 import swc.ctrl.CtrlFinals;
 import swc.ctrl.CtrlGroup;
 import swc.data.SoccerWC;
@@ -24,6 +26,11 @@ public class Mainframe extends JFrame implements ActionListener{
 	 * The world cup object.
 	 */
 	private SoccerWC worldCup;
+	/**
+	 * Determines whether the finals
+	 * should be updated or not.
+	 */
+	private boolean updateFinals = false;
 	/**
 	 * SerialVersion UID for a javax.swing class.
 	 */
@@ -80,7 +87,7 @@ public class Mainframe extends JFrame implements ActionListener{
 		menu.add(item);
 		bar.add(menu);
 
-		// The second menu "Extra" is for umiplemented features.
+		// The second menu "Extra" is for uminplemented features.
 		menu = new JMenu("Extra");
 		item = new JMenuItem("World Cup betting");
 		item.addActionListener(this);
@@ -128,7 +135,7 @@ public class Mainframe extends JFrame implements ActionListener{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				int index = tabPane.getSelectedIndex();
-				if(index == tabPane.getTabCount() - 1) {
+				if(index == tabPane.getTabCount() - 1 && updateFinals) {
 					CtrlFinals.calculateFinals(worldCup);
 				}
 			}
@@ -143,6 +150,7 @@ public class Mainframe extends JFrame implements ActionListener{
 	/** 
 	 * Handles menu events. Currently implemented are:
 	 * <li> Create a new WorldCup.
+	 * <li> Load a new world cup from a CSV file.
 	 * <li> Show the "About" dialog.
 	 * <li> End the program.
 	 * @param e - ActionEvent
@@ -150,16 +158,90 @@ public class Mainframe extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
-		if(action.equals("New World Cup")) {
+		/*
+		 * Open a FileChooser to load a .csv-file
+		 * from which a world cup can be read in.
+		 */
+		if(action.equals("Load World Cup")) {
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Text or CSV files", "txt", "csv");
+			JFileChooser fileOpener = new JFileChooser();
+			fileOpener.setDialogTitle("Load a world cup from a .csv file");
+			fileOpener.setFileFilter(filter);
+
+			int option = fileOpener.showOpenDialog(this);
+			if(option == JFileChooser.APPROVE_OPTION) {
+				try {
+					updateFinals = false;
+					String filename = fileOpener.getSelectedFile().getPath();
+					SoccerWC newWorldCup = CtrlCSV.createFromFile(filename);
+					this.worldCup = newWorldCup;
+					CtrlFinals.calculateFinals(newWorldCup);
+					updateView("New world cup successfuly loaded!");
+				}
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(this, ex.toString(), "Couldn't load world cup from file", JOptionPane.ERROR_MESSAGE);
+				}
+				finally{
+					updateFinals = true;
+				}
+			}
+		}
+		/*
+		 * Open the "Create new world cup" dialogue.
+		 */
+		else if(action.equals("New World Cup")) {
 			CreateDialog cd = new CreateDialog(this, worldCup);
 			cd.setVisible(true);
 		}
-		else if(action.equals("About")) {
-			JOptionPane.showMessageDialog(this, "Soccer World Cup Milestone 4, \nDevelopers:\nDeuscher Marco and Jutz Benedikt", "About", JOptionPane.INFORMATION_MESSAGE);
+		/*
+		 * Save a .csv file to a known location.
+		 * If unknown, call saveWorldCup().
+		 */
+		else if(action.equals("Save")) {
+			if(worldCup.getFilename().equals(""))
+				saveWorldCupToNewLocation();
+			else {
+				try {
+					CtrlCSV.writeToCSV(worldCup, worldCup.getFilename());
+				}
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving a .csv file", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		}
+		else if(action.equals("Save As...")) {
+			saveWorldCupToNewLocation();
+		}
+		/*
+		 * Show an "About" screen.
+		 */
+		else if(action.equals("About")) {
+			JOptionPane.showMessageDialog(this, "Soccer World Cup Milestone 5, \nDevelopers:\nDeuscher Marco and Jutz Benedikt", "About", JOptionPane.INFORMATION_MESSAGE);
+		}
+		/*
+		 * Exit the program without warning.
+		 */
 		else if(action.equals("Exit")) {
 			System.exit(0);
 		}
+	}
+
+	/**
+	 * Opens a JFileChooser to save a .csv file.
+	 * Will also print error messages if necessary.
+	 */
+	private void saveWorldCupToNewLocation() {
+		JFileChooser fileChooser = new JFileChooser();
+		int save = fileChooser.showSaveDialog(this);
+		String path = fileChooser.getSelectedFile().getPath();
+		try {
+			CtrlCSV.writeToCSV(worldCup, path);
+			worldCup.setFilename(path);
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving a .csv file", JOptionPane.ERROR_MESSAGE);
+		}				
+		System.out.println(path);
 	}
 
 	/**
@@ -177,5 +259,6 @@ public class Mainframe extends JFrame implements ActionListener{
 		tabPane.addTab("Finals", new FinalsPanel(worldCup));
 		worldName.setText(worldCup.getName());
 		statusText.setText(message);
+		updateFinals = true;
 	}
 }

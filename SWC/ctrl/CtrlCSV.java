@@ -27,12 +27,9 @@ public class CtrlCSV {
 	 * 
 	 * @param worldCup - SoccerWC
 	 * @param filename - String
-	 * @throws FileNotFoundException
-	 * Occurs if the file under filename can't be opened.
-	 * @throws IOException
-	 * Occurs if the file can't be written properly.
+	 * @throws Exception - Thrown on a program error.
 	 */
-	private static void writeToCSV(SoccerWC worldCup, String filename) throws FileNotFoundException, IOException {
+	public static void writeToCSV(SoccerWC worldCup, String filename) throws Exception {
 		/*
 		 * Strings which are written multiple times into the file:
 		 * the world cup name, and the data fields of games and teams.
@@ -43,7 +40,12 @@ public class CtrlCSV {
 
 		// Create the writer instance.
 		PrintWriter outputWriter = null;
-		outputWriter = new PrintWriter(new FileOutputStream(filename));
+		try {
+			outputWriter = new PrintWriter(new FileOutputStream(filename));
+		}
+		catch(Exception e) {
+			throw new Exception("An error occured while opening the requested file to write to.");
+		}
 
 		/*
 		 * Write the group information into the file:
@@ -89,8 +91,12 @@ public class CtrlCSV {
 		outputWriter.println(finals.getFinalGame().toString());
 
 		// Flush the writer (force a write) and close it then.
-		outputWriter.flush();
-		outputWriter.close();
+		try {
+			outputWriter.flush();
+			outputWriter.close();
+		}catch(Exception e) {
+			throw new Exception("The file could not be written properly.");
+		}
 	}
 
 	/**
@@ -98,27 +104,23 @@ public class CtrlCSV {
 	 * 
 	 * @param filename - String
 	 * @return SoccerWC
-	 *
-	 * @throws FileNotFoundException
-	 * Thrown when the source file cannot be opened.
-	 * @throws IOException
-	 * Thrown when the file can't be closed.
-	 * @throws NullPointerException
-	 * Thrown when the file is too small.
-	 * @throws NumberFormatException
-	 * Thrown when a (integer) number can't be read.
-	 * @throws IllegalArgumentException
-	 * Thrown when a team cannot be assigned to a game.
+	 * @throws Exception - Thrown when the file can not be read,
+	 * or is invalid.
 	 */
-	public static SoccerWC createFromFile(String filename) throws FileNotFoundException, IOException,
-															NumberFormatException, IllegalArgumentException, NullPointerException {
+	public static SoccerWC createFromFile(String filename) throws Exception {
 		// Create the new world cup.
 		SoccerWC worldCup = new SoccerWC();
 		Vector<Team> allTeams = new Vector<>();
 
 		// Set up the file reader.
 		worldCup.setFilename(filename);
-		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+		}
+		catch(Exception e) {
+			throw new Exception("The file could not be opened.");
+		}
 
 		/*
 		 * Create the teams:
@@ -130,66 +132,93 @@ public class CtrlCSV {
 		for(int i = 0; i < 8; i++) {
 			String [] lines = new String[16];
 			worldCup.setName(lines[0]);
-			for(int j = 0; j < 16; j++) {
-				lines[j] = reader.readLine();
-				if(lines[j] == null)
-					throw new NullPointerException("Reached end of file before world cup could be created!");
+			try {
+				for(int j = 0; j < 16; j++) {
+					lines[j] = reader.readLine();
+					if(lines[j] == null)
+						throw new NullPointerException("Reached end of file before world cup could be created!");
+				}
+			}catch(IOException e) {
+				throw new Exception("Could not read a line from the file because: "+e.toString());
 			}
 
-			Group group = new Group(lines[1].replaceAll(":", ""));
-			for(int t = 0; t < 4; t++) {
-				Team team = createTeam(lines[t+4]);
-				group.getTeams().addElement(team);
-				allTeams.add(team);
+			Group group;
+			try {
+				group = new Group(lines[1].replaceAll(":", ""));
+				for(int t = 0; t < 4; t++) {
+					Team team = createTeam(lines[t+4]);
+					group.getTeams().addElement(team);
+					allTeams.add(team);
+				}
+				for(int g = 0; g < 6; g++) {
+					group.getGames().addElement(createGame(lines[g+10],
+							group.getTeams(),
+							false));
+				}
 			}
-			for(int g = 0; g < 6; g++) {
-				group.getGames().addElement(createGame(lines[g+10],
-						group.getTeams(),
-						false));
+			catch(Exception e) {
+				throw new Exception("An error occured while creating a group: "+e.toString());
 			}
+			worldCup.addGroup(group);
 		}
 		/*
 		 * Read in the last 27 lines which
 		 * contain information about the final games.
 		 */
 		String [] finalLines = new String[27];
-		for(int i = 0; i < 27; i++) {
-			finalLines[i] = reader.readLine();
-			if(finalLines[i] == null)
-				throw new NullPointerException("Reached end of file before world cup could be created!");
+		try {
+			for(int i = 0; i < 27; i++) {
+				finalLines[i] = reader.readLine();
+				if(finalLines[i] == null)
+					throw new NullPointerException("Reached end of file before world cup could be created!");
+			}
+		}
+		catch(IOException e) {
+			throw new Exception("An error occured while reading the file: "+e.toString());
 		}
 
-		/*
-		 * Create the games for the round of 16.
-		 * One already knows by then which teams take
-		 * part in the tournament. 
-		 */
-		Vector<Game> roundOfSixteen = worldCup.getFinals().getRoundOf16();
-		for(int i = 0; i < 8; i++)
-			roundOfSixteen.addElement(createGame(finalLines[i+3],
-					allTeams,
-					true));
+		try {
+			/*
+			 * Create the games for the round of 16.
+			 * One already knows by then which teams take
+			 * part in the tournament. 
+			 */
+			Vector<Game> roundOfSixteen = worldCup.getFinals().getRoundOf16();
+			for(int i = 0; i < 8; i++)
+				roundOfSixteen.addElement(createGame(finalLines[i+3],
+						allTeams,
+						true));
 
-		// The same for the quarter finals...
-		Vector<Game> quarterFinals = worldCup.getFinals().getQuarterFinals();
-		for(int q = 0; q < 4; q++)
-			quarterFinals.addElement(createGame(finalLines[q+13],
-					allTeams,
-					true));
+			// The same for the quarter finals...
+			Vector<Game> quarterFinals = worldCup.getFinals().getQuarterFinals();
+			for(int q = 0; q < 4; q++)
+				quarterFinals.addElement(createGame(finalLines[q+13],
+						allTeams,
+						true));
 
-		// ... and the semifinals...
-		Vector<Game> semiFinals = worldCup.getFinals().getSemiFinals();
-		for(int s = 0; s < 2; s++)
-			semiFinals.addElement(createGame(finalLines[s+19],
-					allTeams,
-					true));
+			// ... and the semifinals...
+			Vector<Game> semiFinals = worldCup.getFinals().getSemiFinals();
+			for(int s = 0; s < 2; s++)
+				semiFinals.addElement(createGame(finalLines[s+19],
+						allTeams,
+						true));
 
-		// ... and the two final games.
-		worldCup.getFinals().setThirdGame(createGame(finalLines[23], allTeams, true));
-		worldCup.getFinals().setFinalGame(createGame(finalLines[26], allTeams, true));
+			// ... and the two final games.
+			worldCup.getFinals().setThirdGame(createGame(finalLines[23], allTeams, true));
+			worldCup.getFinals().setFinalGame(createGame(finalLines[26], allTeams, true));
+		}
+		catch(Exception e) {
+			throw new Exception("An error occured while creating the finals games: "+e.toString());
+		}
 
+		worldCup.getFinals().setWinner("No winner known");
 		// Close the reader and return the world cup.
-		reader.close();
+		try {
+			reader.close();
+		}
+		catch(Exception e) {
+			throw new Exception("The file to read from could not be closed.");
+		}
 		return worldCup;
 	}
 
