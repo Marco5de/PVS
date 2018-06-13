@@ -1,0 +1,194 @@
+\documentclass{article}
+\usepackage{xcolor,listings}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage[ngerman]{babel}
+\usepackage{pgfplots}
+\usepackage{hyperref}
+\usepackage{pgfplotstable}
+\usepackage{csvsimple}
+\usepackage{float}
+\usepackage[caption = false]{subfig}
+\usepackage[final]{graphicx}
+\lstset{upquote=true}
+
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vfill
+    \includegraphics[width=13cm]{UniUlmLogo.PNG} % also works with logo.pdf
+    \vfill
+    \vfill
+    {\bfseries\Large
+        Programmierung von Systemen\\
+        Blatt 9\\
+        \vskip2cm
+        Marco Deuscher\\ \href{mailto:marco.deuscher@uni-ulm.de}{marco.deuscher@uni-ulm.de}\\
+        Benedikt Jutz\\ \href{benedikt.jutz@uni-ulm.de}{benedikt.jutz@uni-ulm.de}\\
+        \vfill
+    }    
+     Juni 2018
+    \vfill
+    \vfill
+    \vfill
+\end{titlepage}
+
+\section{Aufgabe: SQL I}
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT *
+FROM lieferanten AS l
+WHERE l.LiefStadt<>"Muenchen"
+\end{lstlisting}
+In SQL Query wurde München korrekt geschrieben, aber Latex-Package kann Umlaute nicht anzeigen.
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT DISTINCT l.TeileID
+FROM liefert AS l
+\end{lstlisting}
+
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT *
+FROM preisliste AS pl
+WHERE pl.Preis>=300 AND pl.Preis<=430
+\end{lstlisting}
+
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT *
+FROM bestellungen AS b
+WHERE b.BestDatum NOT BETWEEN 2009-02-15 AND 2009-02-23
+\end{lstlisting}
+
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT *
+FROM kunden AS k
+WHERE k.KdStadt LIKE 'S%'
+\end{lstlisting}
+
+%TODO
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT *
+FROM kunden AS k
+WHERE k.KdStadt LIKE 'S%'
+\end{lstlisting}
+
+
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT m.Name, m.Vorname, m.Gehalt
+FROM mitarbeiter AS m
+WHERE m.Funktion="Montage II" AND m.Wohnort="Ulm"
+ORDER BY m.Gehalt ASC
+\end{lstlisting}
+
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT *,a.AuftrDatum+INTERVAL 3 MONTH  AS skontodatum
+FROM auftraege AS a
+\end{lstlisting}
+
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT a.AuftrNr, a.KdNr
+FROM auftraege AS a
+WHERE DAY(a.AuftrDatum)%2=0
+\end{lstlisting}
+
+\hfill \break
+\subsection{}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+SELECT *, (CASE
+	    WHEN t.Bestand < t.MinBestand THEN "Mangel"
+            WHEN t.Bestand > t.MinBestand THEN "Ueberbestand"
+            WHEN t.Bestand = t.MinBestand THEN "Mindestbestand"
+            ELSE "---"
+           END) AS Bestandsbewertung
+FROM teile AS t
+\end{lstlisting}
+
+\end{document}
