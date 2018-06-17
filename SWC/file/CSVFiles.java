@@ -1,4 +1,4 @@
-package swc.ctrl;
+package swc.file;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,13 +15,13 @@ import swc.data.SoccerWC;
 import swc.data.Team;
 
 /**
- * CtrlCSV handles the import and export of world cup
+ * CSVFiles handles the import and export of world cup
  * states from and to CSV files.
  * 
  * @author Deuscher Marco
  * @author Jutz Benedikt
  */
-public class CtrlCSV {
+public class CSVFiles {
 	/**
 	 * Writes a world cup to a CSV file.
 	 * 

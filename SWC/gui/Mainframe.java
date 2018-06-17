@@ -7,10 +7,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import swc.ctrl.CtrlCSV;
 import swc.ctrl.CtrlFinals;
 import swc.ctrl.CtrlGroup;
 import swc.data.SoccerWC;
+import swc.file.CSVFiles;
 
 /**
  * Mainframe houses the main window with GroupPanels
@@ -173,7 +173,7 @@ public class Mainframe extends JFrame implements ActionListener{
 				try {
 					updateFinals = false;
 					String filename = fileOpener.getSelectedFile().getPath();
-					SoccerWC newWorldCup = CtrlCSV.createFromFile(filename);
+					SoccerWC newWorldCup = CSVFiles.createFromFile(filename);
 					this.worldCup = newWorldCup;
 					CtrlFinals.calculateFinals(newWorldCup);
 					updateView("New world cup successfuly loaded!");
@@ -202,7 +202,7 @@ public class Mainframe extends JFrame implements ActionListener{
 				saveWorldCupToNewLocation();
 			else {
 				try {
-					CtrlCSV.writeToCSV(worldCup, worldCup.getFilename());
+					CSVFiles.writeToCSV(worldCup, worldCup.getFilename());
 				}
 				catch(Exception ex) {
 					JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving a .csv file", JOptionPane.ERROR_MESSAGE);
@@ -216,7 +216,7 @@ public class Mainframe extends JFrame implements ActionListener{
 		 * Show an "About" screen.
 		 */
 		else if(action.equals("About")) {
-			JOptionPane.showMessageDialog(this, "Soccer World Cup Milestone 5, \nDevelopers:\nDeuscher Marco and Jutz Benedikt", "About", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Soccer World Cup Milestone 6, \nDevelopers:\nDeuscher Marco and Jutz Benedikt", "About", JOptionPane.INFORMATION_MESSAGE);
 		}
 		/*
 		 * Exit the program without warning.
@@ -235,7 +235,7 @@ public class Mainframe extends JFrame implements ActionListener{
 		int save = fileChooser.showSaveDialog(this);
 		String path = fileChooser.getSelectedFile().getPath();
 		try {
-			CtrlCSV.writeToCSV(worldCup, path);
+			CSVFiles.writeToCSV(worldCup, path);
 			worldCup.setFilename(path);
 		}
 		catch(Exception ex) {

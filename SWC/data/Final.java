@@ -9,7 +9,7 @@ public class Final {
     private Vector<Game> semiFinals = new Vector<>();
     private Game thirdGame = new Game();
     private Game finalGame = new Game();
-    String winner;
+    private String winner;
 
     public Final(){}
 

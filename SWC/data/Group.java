@@ -1,78 +1,56 @@
 package swc.data;
 
+
 import java.util.Vector;
 
 public class Group {
-	private String strGroupName;
-	private Vector<Team> teams = new Vector<>();
-	private Vector<Game> games = new Vector<>();
-	private boolean isGroupCompleted = false;
+    private String strGroupName;
+    private Vector<Team> teams = new Vector<>();
+    private Vector<Game> games = new Vector<>();
+    boolean isGroupCompleted;
 
-	public Group(String strGroupName) {
-		this.strGroupName = strGroupName;
-	}
+    public Group(String strGroupName){
+        this.strGroupName = strGroupName;
+    }
 
-	public void addTeam(Team teamName) {
-		teams.add(teamName);
-	}
 
-	public void addGame(Game newGame) {
-		games.add(newGame);
-	}
+    public String getStrGroupName() {
+        return strGroupName;
+    }
 
-	/**
-	 * @return the strGroupName
-	 */
-	public String getStrGroupName() {
-		return strGroupName;
-	}
+    public Vector<Team> getTeams() {
+        return teams;
+    }
 
-	/**
-	 * @param strGroupName the strGroupName to set
-	 */
-	public void setStrGroupName(String strGroupName) {
-		this.strGroupName = strGroupName;
-	}
+    public Vector<Game> getGames() {
+        return games;
+    }
 
-	/**
-	 * @return the teams
-	 */
-	public Vector<Team> getTeams() {
-		return teams;
-	}
+    public boolean isGroupCompleted() {
+        return isGroupCompleted;
+    }
 
-	/**
-	 * @param teams the teams to set
-	 */
-	public void setTeams(Vector<Team> teams) {
-		this.teams = teams;
-	}
+    public void setStrGroupName(String strGroupName) {
+        this.strGroupName = strGroupName;
+    }
 
-	/**
-	 * @return the games
-	 */
-	public Vector<Game> getGames() {
-		return games;
-	}
+    public void setTeams(Vector<Team> teams) {
+        this.teams = teams;
+    }
 
-	/**
-	 * @param games the games to set
-	 */
-	public void setGames(Vector<Game> games) {
-		this.games = games;
-	}
+    public void setGames(Vector<Game> games) {
+        this.games = games;
+    }
 
-	/**
-	 * @return the isGroupCompleted
-	 */
-	public boolean isGroupCompleted() {
-		return isGroupCompleted;
-	}
+    public void setGroupCompleted(boolean groupCompleted) {
+        isGroupCompleted = groupCompleted;
+    }
 
-	/**
-	 * @param isGroupCompleted the isGroupCompleted to set
-	 */
-	public void setGroupCompleted(boolean isGroupCompleted) {
-		this.isGroupCompleted = isGroupCompleted;
-	}
+    public void addTeam(Team teamName){
+        teams.add(teamName);
+
+    }
+    public void addGame(Game newGame){
+        games.add(newGame);
+    }
 }
