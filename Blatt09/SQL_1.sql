@@ -8,7 +8,7 @@ SELECT DISTINCT LiefNr
 FROM Liefert
 
 /* Aufgabe 1c) */
-SELECT l.*
+SELECT l.Farbe, l.TeileNr, l.Preis
 FROM Liefert AS l
 WHERE l.Preis >= 300 AND l.Preis <= 430
 
@@ -30,6 +30,7 @@ FROM Teile As t
 SELECT m.Gehalt
 FROM Mitarbeiter AS m
 WHERE m.Funktion = 'Montage II'
+AND m.Wohnort = 'Ulm'
 ORDER BY m.Gehalt ASC
 
 /* Aufgabe 1h) */
