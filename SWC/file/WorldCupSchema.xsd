@@ -10,26 +10,26 @@
     <complexType name="Team">
     	<sequence>
     		<element name="strName" type="string"></element>
-    		<element name="points" type="tns:intPositive"></element>
-    		<element name="gf" type="tns:intPositive"></element>
-    		<element name="ga" type="tns:intPositive"></element>
     		<element name="played" type="tns:intPositive"></element>
     		<element name="won" type="tns:intPositive"></element>
-    		<element name="lost" type="tns:intPositive"></element>
     		<element name="drawn" type="tns:intPositive"></element>
+    		<element name="lost" type="tns:intPositive"></element>
+    		<element name="gf" type="tns:intPositive"></element>
+    		<element name="ga" type="tns:intPositive"></element>
+    		<element name="points" type="tns:intPositive"></element>
     	</sequence>
     </complexType>
     
     <complexType name="Game">
     	<sequence>
-    		<element name="time" type="string"></element>
     		<element name="date" type="string"></element>
+    		<element name="time" type="string"></element>
     		<element name="location" type="string"></element>
+    		<element name="teamH" type="string"></element>
+    		<element name="teamG" type="string"></element>
     		<element name="goalsH" type="tns:intPositive"></element>
     		<element name="goalsG" type="tns:intPositive"></element>
     		<element name="isPlayed" type="boolean"></element>
-    		<element name="teamH" type="string"></element>
-    		<element name="teamG" type="string"></element>
     	</sequence>
     	<attribute name="id" type="int"></attribute>
     </complexType>
@@ -71,12 +71,10 @@
     		<element name="finals" type="tns:Final" maxOccurs="1"
     			minOccurs="1">
     		</element>
-    		<element name="NewElement" type="string"></element>
     	</sequence>
     </complexType>
 
     <element name="worldCup" type="tns:SoccerWC"></element>
-
 
     <element name="team" type="tns:Team"></element>
 

@@ -274,7 +274,7 @@ public class CSVFiles {
 		 */
 		Team team1 = null,
 				team2 = null;
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < teams.size(); i++) {
 			if(teams.get(i).getStrName().equals(info[4])) 
 				team1 = teams.get(i);
 			if(teams.get(i).getStrName().equals(info[5]))
