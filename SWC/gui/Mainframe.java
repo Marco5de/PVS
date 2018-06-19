@@ -11,11 +11,11 @@ import swc.ctrl.CtrlFinals;
 import swc.ctrl.CtrlGroup;
 import swc.data.SoccerWC;
 import swc.file.CSVFiles;
+import swc.file.XMLFiles;
 
 /**
  * Mainframe houses the main window with GroupPanels
- * and a FinalsPanel. From it, new world cups can be edited
- * and created.
+ * and a FinalsPanel. From it, new world cups can be edited and created.
  * Also, we can show the name of the world cup and the program status.
  * 
  * @author Deuscher Marco
@@ -27,10 +27,10 @@ public class Mainframe extends JFrame implements ActionListener{
 	 */
 	private SoccerWC worldCup;
 	/**
-	 * Determines whether the finals
-	 * should be updated or not.
+	 * listener will call updateFinals when
+	 * the Finals tab is selected.
 	 */
-	private boolean updateFinals = false;
+	private TabListener listener;
 	/**
 	 * SerialVersion UID for a javax.swing class.
 	 */
@@ -130,16 +130,8 @@ public class Mainframe extends JFrame implements ActionListener{
 		 * Add a change listener which will trigger
 		 * the recalculation of the finals.
 		 */
-		tabPane.addChangeListener(new ChangeListener() {
-			// The last tab should be the finals tab.
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				int index = tabPane.getSelectedIndex();
-				if(index == tabPane.getTabCount() - 1 && updateFinals) {
-					CtrlFinals.calculateFinals(worldCup);
-				}
-			}
-		});
+		listener = new TabListener(worldCup, tabPane);
+		tabPane.addChangeListener(listener);
 
 		// Add the menu and the main content panel.
 		getContentPane().add(bar, BorderLayout.NORTH);
@@ -150,7 +142,8 @@ public class Mainframe extends JFrame implements ActionListener{
 	/** 
 	 * Handles menu events. Currently implemented are:
 	 * <li> Create a new WorldCup.
-	 * <li> Load a new world cup from a CSV file.
+	 * <li> Load a new world cup from a CSV or XML file.
+	 * <li> Save a world cup to such an file.
 	 * <li> Show the "About" dialog.
 	 * <li> End the program.
 	 * @param e - ActionEvent
@@ -163,28 +156,7 @@ public class Mainframe extends JFrame implements ActionListener{
 		 * from which a world cup can be read in.
 		 */
 		if(action.equals("Load World Cup")) {
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("Text or CSV files", "txt", "csv");
-			JFileChooser fileOpener = new JFileChooser();
-			fileOpener.setDialogTitle("Load a world cup from a .csv file");
-			fileOpener.setFileFilter(filter);
-
-			int option = fileOpener.showOpenDialog(this);
-			if(option == JFileChooser.APPROVE_OPTION) {
-				try {
-					updateFinals = false;
-					String filename = fileOpener.getSelectedFile().getPath();
-					SoccerWC newWorldCup = CSVFiles.createFromFile(filename);
-					this.worldCup = newWorldCup;
-					CtrlFinals.calculateFinals(newWorldCup);
-					updateView("New world cup successfuly loaded!");
-				}
-				catch(Exception ex) {
-					JOptionPane.showMessageDialog(this, ex.toString(), "Couldn't load world cup from file", JOptionPane.ERROR_MESSAGE);
-				}
-				finally{
-					updateFinals = true;
-				}
-			}
+			loadWorldCup();
 		}
 		/*
 		 * Open the "Create new world cup" dialogue.
@@ -198,16 +170,7 @@ public class Mainframe extends JFrame implements ActionListener{
 		 * If unknown, call saveWorldCup().
 		 */
 		else if(action.equals("Save")) {
-			if(worldCup.getFilename().equals(""))
-				saveWorldCupToNewLocation();
-			else {
-				try {
-					CSVFiles.writeToCSV(worldCup, worldCup.getFilename());
-				}
-				catch(Exception ex) {
-					JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving a .csv file", JOptionPane.ERROR_MESSAGE);
-				}
-			}
+			saveWorldCup();
 		}
 		else if(action.equals("Save As...")) {
 			saveWorldCupToNewLocation();
@@ -227,21 +190,94 @@ public class Mainframe extends JFrame implements ActionListener{
 	}
 
 	/**
-	 * Opens a JFileChooser to save a .csv file.
+	 * Opens a JFileChooser which allows to load
+	 * a world cup from a .xml or .csv file.
+	 */
+	private void loadWorldCup() {
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("XML or CSV files", "xml", "csv");
+		JFileChooser fileOpener = new JFileChooser();
+		fileOpener.setDialogTitle("Load a world cup from a .xml or .csv file");
+		fileOpener.setFileFilter(filter);
+
+		int option = fileOpener.showOpenDialog(this);
+		if(option == JFileChooser.APPROVE_OPTION) {
+			try {
+				listener.setUpdateFinals(false);
+				String filename = fileOpener.getSelectedFile().getPath();
+				String [] path = filename.split("\\.");
+				String ending = path[path.length-1];
+				SoccerWC newWorldCup;
+				if(ending.equals("xml"))
+					newWorldCup = XMLFiles.createFromXMLFile(filename);
+				else
+					newWorldCup = CSVFiles.createFromFile(filename);
+				newWorldCup.setFilename(filename);
+				this.worldCup = newWorldCup;
+				listener.setWorldCup(worldCup);
+				CtrlFinals.calculateFinals(newWorldCup);
+				updateView("New world cup successfuly loaded!");
+			}
+			catch(Exception ex) {
+				JOptionPane.showMessageDialog(this, ex.toString(), "Couldn't load world cup from file", JOptionPane.ERROR_MESSAGE);
+			}
+			finally{
+				listener.setUpdateFinals(true);
+			}
+		}
+	}
+
+	/**
+	 * Saves a world cup to a (new) location.
+	 */
+	private void saveWorldCup() {
+		if(worldCup.getFilename() == null) {
+			JOptionPane.showMessageDialog(this, "A world cup must be created or loaded first.", "Cannot save to a file", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		if(worldCup.getFilename().equals(""))
+			saveWorldCupToNewLocation();
+		else {
+			try {
+				String [] path = worldCup.getFilename().split("\\.");
+				String ending = path[path.length-1];
+				if(ending.equals("xml"))
+					XMLFiles.writeToXMLFile(worldCup.getFilename(), worldCup);
+				else
+					CSVFiles.writeToCSV(worldCup, worldCup.getFilename());
+			}
+			catch(Exception ex) {
+				JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving the world cup file", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	/**
+	 * Opens a JFileChooser to save a .csv or .xml file.
 	 * Will also print error messages if necessary.
 	 */
 	private void saveWorldCupToNewLocation() {
+		if(worldCup.getName() == null) {
+			JOptionPane.showMessageDialog(this, "A world cup must be created or loaded first.", "Cannot save to a file", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
 		JFileChooser fileChooser = new JFileChooser();
 		int save = fileChooser.showSaveDialog(this);
-		String path = fileChooser.getSelectedFile().getPath();
+		if(save != JFileChooser.APPROVE_OPTION)
+			return;
+
+		String fileName = fileChooser.getSelectedFile().getPath();
 		try {
-			CSVFiles.writeToCSV(worldCup, path);
-			worldCup.setFilename(path);
+			String [] path = fileName.split("\\.");
+			String ending = path[path.length-1];
+			if(ending.equals("xml"))
+				XMLFiles.writeToXMLFile(fileName, worldCup);
+			else
+				CSVFiles.writeToCSV(worldCup, worldCup.getFilename());
 		}
 		catch(Exception ex) {
-			JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving a .csv file", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving a world cup file", JOptionPane.ERROR_MESSAGE);
 		}				
-		System.out.println(path);
+		System.out.println(fileName);
 	}
 
 	/**
@@ -252,13 +288,41 @@ public class Mainframe extends JFrame implements ActionListener{
 	 * @param message - String
 	 */
 	public void updateView(String message) {
+		listener.setUpdateFinals(false);
 		tabPane.removeAll();
 		for(swc.data.Group group: worldCup.getGroups()) {
 			tabPane.addTab(group.getStrGroupName(), new GroupPanel(group));
 		}
 		tabPane.addTab("Finals", new FinalsPanel(worldCup));
 		worldName.setText(worldCup.getName());
+		listener.setWorldCup(worldCup);
 		statusText.setText(message);
-		updateFinals = true;
+		listener.setUpdateFinals(true);
+	}
+}
+
+final class TabListener implements ChangeListener{
+	private boolean updateFinals = false;
+	private SoccerWC worldCup;
+	private JTabbedPane tabPane;
+
+	void setUpdateFinals(boolean newValue){
+		updateFinals = newValue;
+	}
+
+	void setWorldCup(SoccerWC worldCup) {
+		this.worldCup = worldCup;
+	}
+
+	TabListener(SoccerWC worldCup, JTabbedPane tabPane){
+		this.worldCup = worldCup;
+		this.tabPane = tabPane;	
+	}
+
+	public void stateChanged(ChangeEvent e) {
+		int index = tabPane.getSelectedIndex();
+		if(index == tabPane.getTabCount() - 1 && updateFinals) {
+			CtrlFinals.calculateFinals(worldCup);
+		}
 	}
 }

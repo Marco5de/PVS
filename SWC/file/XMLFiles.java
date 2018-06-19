@@ -74,7 +74,7 @@ public class XMLFiles {
 		 * teamPool will be used by createGame.
 		 */
 		Element rootElement = doc.getRootElement();
-		String wcName = rootElement.getChildText("groupName", ns);
+		String wcName = rootElement.getChildText("name", ns);
 		SoccerWC newWorldCup = new SoccerWC(filepath, wcName);
 		Vector<Team> teamPool = new Vector<>();
 
@@ -130,6 +130,7 @@ public class XMLFiles {
 		newFinals.setThirdGame(createGame(thirdGameElement, true, teamPool));
 		Element finalGameElement = finalsElement.getChild("finalGame", ns);
 		newFinals.setFinalGame(createGame(finalGameElement, true, teamPool));
+		newFinals.setWinner("No winner known");
 
 		/*
 		 * Set the finals and return the world cup.
@@ -212,7 +213,8 @@ public class XMLFiles {
 		rootElement.addContent(finalsElement);
 		Document doc = new Document(rootElement);
 		try{
-			out.output(doc, new FileWriter(destination));
+			FileWriter fileWriter = new FileWriter(destination);
+			out.output(doc, fileWriter);
 		}
 		catch(IOException e){
 			throw new IOException("An error occured while writing to the XML file: "+e.toString());
@@ -238,7 +240,7 @@ public class XMLFiles {
 		 * Load and parse the attributes and elements which make up
 		 * a game object. 
 		 */
-		int gameId = 0; Integer.parseInt(gameElement.getAttributeValue("id"));
+		int gameId = Integer.parseInt(gameElement.getAttributeValue("id"));
 		String date = gameElement.getChildText("date", ns);
 		String time = gameElement.getChildText("time", ns);
 		String location = gameElement.getChildText("location", ns);
