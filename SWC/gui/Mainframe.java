@@ -176,16 +176,23 @@ public class Mainframe extends JFrame implements ActionListener{
 			saveWorldCupToNewLocation();
 		}
 		/*
+		 * Exit the program without warning.
+		 */
+		else if(action.equals("Exit")) {
+			System.exit(0);
+		}
+		/*
 		 * Show an "About" screen.
 		 */
 		else if(action.equals("About")) {
 			JOptionPane.showMessageDialog(this, "Soccer World Cup Milestone 6, \nDevelopers:\nDeuscher Marco and Jutz Benedikt", "About", JOptionPane.INFORMATION_MESSAGE);
 		}
 		/*
-		 * Exit the program without warning.
+		 * Open up the World cup betting dialogue.
 		 */
-		else if(action.equals("Exit")) {
-			System.exit(0);
+		else if(action.equals("World Cup betting")) {
+			BettingDialog bd = new BettingDialog(this, worldCup);
+			bd.setVisible(true);
 		}
 	}
 
