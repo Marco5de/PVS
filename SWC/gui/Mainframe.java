@@ -244,6 +244,7 @@ public class Mainframe extends JFrame implements ActionListener{
 					XMLFiles.writeToXMLFile(worldCup.getFilename(), worldCup);
 				else
 					CSVFiles.writeToCSV(worldCup, worldCup.getFilename());
+				JOptionPane.showMessageDialog(this, "World cup data saved to "+worldCup.getFilename(), "Saving successful", JOptionPane.INFORMATION_MESSAGE);
 			}
 			catch(Exception ex) {
 				JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving the world cup file", JOptionPane.ERROR_MESSAGE);
@@ -272,7 +273,9 @@ public class Mainframe extends JFrame implements ActionListener{
 			if(ending.equals("xml"))
 				XMLFiles.writeToXMLFile(fileName, worldCup);
 			else
-				CSVFiles.writeToCSV(worldCup, worldCup.getFilename());
+				CSVFiles.writeToCSV(worldCup, fileName);
+			worldCup.setFilename(fileName);
+			JOptionPane.showMessageDialog(this, "World cup data saved to "+worldCup.getFilename(), "Saving successful", JOptionPane.INFORMATION_MESSAGE);
 		}
 		catch(Exception ex) {
 			JOptionPane.showMessageDialog(this, ex.toString(), "Error while saving a world cup file", JOptionPane.ERROR_MESSAGE);
@@ -301,24 +304,60 @@ public class Mainframe extends JFrame implements ActionListener{
 	}
 }
 
+/**
+ * TabListener is an auxiliary class for
+ * triggering {@link CtrlFinals#calculateFinals(SoccerWC)}
+ * when the Finals tab is selected.
+ * 
+ * @author Deuscher Marco
+ * @author Jutz Benedikt
+ */
 final class TabListener implements ChangeListener{
+	/**
+	 * Can be set to determine whether the
+	 * finals should be updated or not.
+	 */
 	private boolean updateFinals = false;
+	/**
+	 * The world cup to calculate finals for.
+	 */
 	private SoccerWC worldCup;
+	/**
+	 * The tab pane to monitor.
+	 */
 	private JTabbedPane tabPane;
 
+	/**
+	 * Sets whether to update the finals or not.
+	 * @param newValue - boolean
+	 */
 	void setUpdateFinals(boolean newValue){
 		updateFinals = newValue;
 	}
 
+	/**
+	 * Sets the world cup to look at.
+	 * @param worldCup - SoccerWC
+	 */
 	void setWorldCup(SoccerWC worldCup) {
 		this.worldCup = worldCup;
 	}
 
+	/**
+	 * Creates a new TabListener.
+	 * @param worldCup - SoccerWC
+	 * @param tabPane - JTabbedPane
+	 */
 	TabListener(SoccerWC worldCup, JTabbedPane tabPane){
 		this.worldCup = worldCup;
 		this.tabPane = tabPane;	
 	}
 
+	/**
+	 * The main method. When the worldCup object is initialized
+	 * and the last tab(for the finals) is selected, calculate the finals.
+	 * @param e - ChangeEvent
+	 */
 	public void stateChanged(ChangeEvent e) {
 		int index = tabPane.getSelectedIndex();
 		if(index == tabPane.getTabCount() - 1 && updateFinals) {
