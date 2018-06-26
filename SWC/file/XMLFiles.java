@@ -1,349 +1,259 @@
 package swc.file;
 
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.Format;
+import java.util.List;
 import java.util.Vector;
 
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.input.sax.XMLReaderXSDFactory;
 import org.jdom2.output.XMLOutputter;
+import org.xml.sax.InputSource;
 
 import swc.data.*;
 
-/**
- * XMLFiles contains two methods to save SoccerWC objects
- * into XML files, and to load them from those files.
- * 
- * This subpackage contains the file "WorldCupSchema.xsd";
- * which describes how a correct file for this program is built.
- * We use it to verify XML files.
- * 
- * @author Deuscher Marco
- * @author Jutz Benedikt
- */
 public class XMLFiles {
-	/**
-	 * The team elements possess these children.
-	 */
-	private static String [] teamFields = {"strName",
-			"played", "won", "drawn", "lost", "gf", "ga", "points"
-	};
-	/**
-	 * The game elements possess these children.
-	 */
-	private static String [] gameFields = {"date", "time", "location", "teamH",
-			"teamG", "goalsH", "goalsG",  "isPlayed"
-	};
-	/**
-	 * "tns" is the default namespace of our program.
-	 */
-	private static Namespace ns = Namespace.getNamespace("tns", "http://www.example.org/WorldCupSchema");
+	public static SoccerWC readFromXML(String filename, SoccerWC worldCup) throws JDOMException, IOException {
+		SAXBuilder sxbuild = new SAXBuilder();
+		InputSource is = new InputSource(filename);
+		Document doc = sxbuild.build(is);
+		worldCup.setFilename(filename);
+		processFile(doc, worldCup);
+		return worldCup;
+	}
 
-	/**
-	 * Creates a SoccerWC object from a XMl file.
-	 * @param filepath - String
-	 * @return new SoccerWC
-	 * @throws JDOMException - Thrown when the XML file is invalid.
-	 * @throws IOException - Thrown when the file cannot be read.
-	 * @throws IllegalArgumentException - Thrown by {@link XMLFiles#createGame(Element, boolean, Vector)}
-	 */
-	public static SoccerWC createFromXMLFile(String filepath) throws JDOMException, IOException, IllegalArgumentException {
-		/*
-		 * Attempt to open the schema file, create the SAXBuilder
-		 * and build the document representing the world cup.
-		 * Appropriate exceptions can be thrown.
-		 */
-		Document doc;
-		try{
-			URL xsdFile = XMLFiles.class.getResource("WorldCupSchema.xsd");
-			XMLReaderXSDFactory factory = new XMLReaderXSDFactory(xsdFile);
-			SAXBuilder builder = new SAXBuilder(factory);
-			doc = builder.build(filepath);
-		}
-		catch(IOException ie){
-			throw new IOException("An error has occurred while reading a file: "+ie.toString());
-		}
-		catch(JDOMException je){
-			throw new JDOMException("The input XML file is invalid. Cannot load the world cup from this file!");
-		}
+	public static SoccerWC readFromRemoteFile(String path, SoccerWC worldCup) throws IOException, JDOMException{
+		URL url = new URL(path);
+		InputStream remoteStream = url.openStream();
+		SAXBuilder builder = new SAXBuilder();
+		Document doc = builder.build(remoteStream);
+		worldCup.setFilename(path);
+		return worldCup;
+	}
 
-		/*
-		 * Create the world cup, first setting the name and file name.
-		 * teamPool will be used by createGame.
-		 */
-		Element rootElement = doc.getRootElement();
-		String wcName = rootElement.getChildText("name", ns);
-		SoccerWC newWorldCup = new SoccerWC(filepath, wcName);
-		Vector<Team> teamPool = new Vector<>();
+	private static void processFile(Document doc, SoccerWC worldCup) {
+		Element root = doc.getRootElement();
 
-		/*
-		 * Create and add the group elements.
-		 */
-		for(Element groupElement: rootElement.getChildren("groups", ns)){
-			// Set the group name.
-			String groupName = groupElement.getChildText("groupName", ns);
-			Group group = new Group(groupName);
+		// clear world cup
+		Vector<Group> groupObjects = worldCup.getGroups();
+		groupObjects.clear();
 
-			// Create the teams.
-			for(Element teamElement: groupElement.getChildren("teams", ns)){
-				Team newTeam = createTeam(teamElement);
-				teamPool.add(newTeam);
-				group.addTeam(newTeam);
+		worldCup.setName(root.getChild("meta").getChildText("name"));
+		Element groups = root.getChild("groups");
+
+		@SuppressWarnings("rawtypes")
+		List allGroups = groups.getChildren("group");
+		for (Object obj : allGroups) {
+			if (obj instanceof Element) {
+				Group newGroup = new Group(((Element) obj).getChildText("groupName"));
+				createTeams(newGroup, (Element) obj, worldCup);
+				createGames(newGroup, (Element) obj, worldCup);
+				worldCup.addGroup(newGroup);
 			}
+		}
 
-			// Create the games.
-			Vector<Team> allTeams = group.getTeams();
-			for(Element gameElement: groupElement.getChildren("games", ns)){
-				Game newGame = createGame(gameElement, false, allTeams);
-				group.addGame(newGame);
+		Element finals = root.getChild("finals");
+		Element round16 = finals.getChild("round16");
+		Vector<Game> r16 = worldCup.getFinals().getRoundOf16();
+		r16.clear();
+		createFinalGames(r16, round16, worldCup);
+
+		Element quarter = finals.getChild("quarter");
+		Vector<Game> q = worldCup.getFinals().getQuarterFinals();
+		q.clear();
+		createFinalGames(q, quarter, worldCup);
+
+		Element semi = finals.getChild("semi");
+		Vector<Game> s = worldCup.getFinals().getSemiFinals();
+		s.clear();
+		createFinalGames(s, semi, worldCup);
+
+		Element thirdGame = finals.getChild("third");
+		Vector<Game> t = new Vector<Game>();
+		t.clear();
+		createFinalGames(t, thirdGame, worldCup);
+		worldCup.getFinals().setThirdGame(t.get(0));
+
+		Element finalGame = finals.getChild("final");
+		Vector<Game> f = new Vector<Game>();
+		f.clear();
+		createFinalGames(f, finalGame, worldCup);
+		worldCup.getFinals().setFinalGame(f.get(0));
+
+		worldCup.getFinals().setWinner(finals.getChildText("winner"));
+	}
+
+	private static void createTeams(Group newGroup, Element group, SoccerWC worldCup) {
+		for (Object xmlTeam : group.getChildren("team")) {
+			if (xmlTeam instanceof Element) {
+				Team newTeam = new Team();
+				newTeam.setStrName(((Element) xmlTeam).getChildText("teamName"));
+				newTeam.setPoints(Integer.parseInt((((Element) xmlTeam).getChildText("points"))));
+				newTeam.setGf(Integer.parseInt((((Element) xmlTeam).getChildText("gf"))));
+				newTeam.setGa(Integer.parseInt((((Element) xmlTeam).getChildText("ga"))));
+				newTeam.setPlayed(Integer.parseInt((((Element) xmlTeam).getChildText("played"))));
+				newTeam.setWon(Integer.parseInt((((Element) xmlTeam).getChildText("won"))));
+				newTeam.setLoss(Integer.parseInt((((Element) xmlTeam).getChildText("loss"))));
+				newTeam.setDraw(Integer.parseInt((((Element) xmlTeam).getChildText("draw"))));
+				newGroup.addTeam(newTeam);
 			}
-
-			// Add the group to the world cup.
-			newWorldCup.addGroup(group);
 		}
-
-		/*
-		 * Create the Final object.
-		 */
-		Final newFinals = new Final();
-		Element finalsElement = rootElement.getChild("finals", ns);
-
-		/*
-		 * Load the XML elements representing the final games
-		 * and convert them into the appropriate game objects.
-		 */
-		for(Element gamesOf16Element: finalsElement.getChildren("roundOf16", ns)){
-			Game gameOf16 = createGame(gamesOf16Element, true, teamPool);
-			newFinals.getRoundOf16().add(gameOf16);
-		}
-		for(Element quarterFinalElement: finalsElement.getChildren("quarterFinals", ns)){
-			Game quarterFinal = createGame(quarterFinalElement, true, teamPool);
-			newFinals.getQuarterFinals().add(quarterFinal);
-		}
-		for(Element semiFinalElement: finalsElement.getChildren("semiFinals", ns)){
-			Game semiFinal = createGame(semiFinalElement, true, teamPool);
-			newFinals.getSemiFinals().add(semiFinal);
-		}
-		Element thirdGameElement = finalsElement.getChild("thirdGame", ns);
-		newFinals.setThirdGame(createGame(thirdGameElement, true, teamPool));
-		Element finalGameElement = finalsElement.getChild("finalGame", ns);
-		newFinals.setFinalGame(createGame(finalGameElement, true, teamPool));
-		newFinals.setWinner("No winner known");
-
-		/*
-		 * Set the finals and return the world cup.
-		 */
-		newWorldCup.setFinals(newFinals);
-		return newWorldCup;
 	}
 
-	/**
-	 * Writes a SoccerWC object to a XML file.
-	 * 
-	 * @param destination - String
-	 * @param worldCup - SoccerWC
-	 * @throws IOException - Trhown when the file under destination cannot be written to.
-	 */
-	public static void writeToXMLFile(String destination, SoccerWC worldCup) throws IOException {
-		/*
-		 * Create a new XML element which
-		 * is the root of our document and add our namespaces.
-		 */
-		XMLOutputter out = new XMLOutputter();
-		Element rootElement = new Element("worldCup", ns);
-		rootElement.addNamespaceDeclaration(Namespace.getNamespace("xsl", "http://www.w3.org/2001/XMLSchema-instance"));
-
-		// Add the document name.
-		Element nameElement = new Element("name", ns).setText(worldCup.getName());
-		rootElement.addContent(nameElement);
-
-		/*
-		 * Add the groups:
-		 * -- first the names,
-		 * -- then the teams,
-		 * -- then the games.
-		 * Create the necessary XML elements for then and add them to
-		 * the group element. 
-		 */
-		for(Group group: worldCup.getGroups()){
-			String groupName = group.getStrGroupName();
-			Element groupElement = new Element("groups", ns);
-			groupElement.addContent(new Element("groupName", ns).setText(groupName));
-
-			for(Team team: group.getTeams()){
-				Element teamElement = teamToElement(team);
-				groupElement.addContent(teamElement);
+	private static void createGames(Group newGroup, Element group, SoccerWC worldCup) {
+		for (Object xmlGame : group.getChildren("game")) {
+			if (xmlGame instanceof Element) {
+				Game newGame = new Game();
+				newGame.setIntId(Integer.parseInt((((Element) xmlGame).getChildText("gameId"))));
+				newGame.setTime(((Element) xmlGame).getChildText("time"));
+				newGame.setDate(((Element) xmlGame).getChildText("date"));
+				newGame.setLocation(((Element) xmlGame).getChildText("location"));
+				newGame.setGoalsH(Integer.parseInt((((Element) xmlGame).getChildText("goalsH"))));
+				newGame.setGoalsG(Integer.parseInt((((Element) xmlGame).getChildText("goalsG"))));
+				if ((((Element) xmlGame).getChildText("isPlayed")).equals("true"))
+					newGame.setPlayed(true);
+				else
+					newGame.setPlayed(false);
+				for (Team team : newGroup.getTeams()) {
+					if (team.getStrName().equals((((Element) xmlGame).getChildText("teamH"))))
+						newGame.setTeamH(team);
+					if (team.getStrName().equals((((Element) xmlGame).getChildText("teamG"))))
+						newGame.setTeamG(team);
+				}
+				newGroup.addGame(newGame);
 			}
-			for(Game game: group.getGames()){
-				Element gameElement = gameToElement(game, "games");
-				groupElement.addContent(gameElement);
+		}
+	}
+
+	private static void createFinalGames(Vector<Game> newGames, Element parent, SoccerWC worldCup) {
+		for (Object xmlGame : parent.getChildren("game")) {
+			if (xmlGame instanceof Element) {
+				Game newGame = new Game();
+				newGame.setIntId(Integer.parseInt((((Element) xmlGame).getChildText("gameId"))));
+				newGame.setTime(((Element) xmlGame).getChildText("time"));
+				newGame.setDate(((Element) xmlGame).getChildText("date"));
+				newGame.setLocation(((Element) xmlGame).getChildText("location"));
+				newGame.setGoalsH(Integer.parseInt((((Element) xmlGame).getChildText("goalsH"))));
+				newGame.setGoalsG(Integer.parseInt((((Element) xmlGame).getChildText("goalsG"))));
+				if ((((Element) xmlGame).getChildText("isPlayed")).equals("true"))
+					newGame.setPlayed(true);
+				else
+					newGame.setPlayed(false);
+
+				Team home = new Team();
+				home.setStrName((((Element) xmlGame).getChildText("teamH")));
+				newGame.setTeamH(home);
+
+				Team guest = new Team();
+				guest.setStrName((((Element) xmlGame).getChildText("teamG")));
+				newGame.setTeamG(guest);
+
+				for (Group g : worldCup.getGroups()) {
+					for (Team team : g.getTeams()) {
+						if (team.getStrName().equals((((Element) xmlGame).getChildText("teamH"))))
+							newGame.setTeamH(team);
+						if (team.getStrName().equals((((Element) xmlGame).getChildText("teamG"))))
+							newGame.setTeamG(team);
+					}
+				}
+				newGames.add(newGame);
 			}
-
-			rootElement.addContent(groupElement);
-		}
-
-		/*
-		 * Create the finals element and add the
-		 * game elements associated with it.
-		 */
-		Element finalsElement = new Element("finals", ns);
-		Final finals = worldCup.getFinals();
-		for(Game round1: finals.getRoundOf16()){
-			Element gameElement = gameToElement(round1, "roundOf16");
-			finalsElement.addContent(gameElement);
-		}
-		for(Game round2: finals.getQuarterFinals()){
-			Element gameElement = gameToElement(round2, "quarterFinals");
-			finalsElement.addContent(gameElement);
-		}
-		for(Game round3: finals.getSemiFinals()){
-			Element gameElement = gameToElement(round3, "semiFinals");
-			finalsElement.addContent(gameElement);
-		}
-		finalsElement.addContent(XMLFiles.gameToElement(finals.getThirdGame(), "thirdGame"));
-		finalsElement.addContent(XMLFiles.gameToElement(finals.getFinalGame(), "finalGame"));
-
-		/*
-		 * Try to create a XML document and write it
-		 * into the file under destination. If that fails,
-		 * throw an IO exception.
-		 */
-		rootElement.addContent(finalsElement);
-		Document doc = new Document(rootElement);
-		try{
-			FileWriter fileWriter = new FileWriter(destination);
-			out.output(doc, fileWriter);
-		}
-		catch(IOException e){
-			throw new IOException("An error occured while writing to the XML file: "+e.toString());
 		}
 	}
 
-	/**
-	 * Creates a new game from an XML element.
-	 * isFinalsGame and possiblePlayers are used to determine the teams
-	 * from the string in the XML file. In the finals, the teams which play may ot
-	 * have been set already.
-	 * 
-	 * @param gameElement - Element
-	 * @param isFinalsGame - boolean
-	 * @param possiblePlayers - Vector<Team>
-	 * @return new Game
-	 * @throws IllegalArgumentException
-	 */
-	private static Game createGame(Element gameElement,
-			boolean isFinalsGame,
-			Vector<Team> possiblePlayers) throws IllegalArgumentException{
-		/*
-		 * Load and parse the attributes and elements which make up
-		 * a game object. 
-		 */
-		int gameId = Integer.parseInt(gameElement.getAttributeValue("id"));
-		String date = gameElement.getChildText("date", ns);
-		String time = gameElement.getChildText("time", ns);
-		String location = gameElement.getChildText("location", ns);
-		String teamH = gameElement.getChildText("teamH", ns);
-		String teamG = gameElement.getChildText("teamG", ns);
-		int goalsH = Integer.parseInt(gameElement.getChildText("goalsH", ns));
-		int goalsG = Integer.parseInt(gameElement.getChildText("goalsG", ns));
-		boolean isPlayed = Boolean.parseBoolean(gameElement.getChildText("isPlayed", ns));
-
-		/*
-		 * Try to find the teams which are supposed
-		 * to be playing in the teams vector. 
-		 */
-		Team team1 = null,
-				team2 = null;
-		for(int i = 0; i < possiblePlayers.size(); i++) {
-			if(possiblePlayers.get(i).getStrName().equals(teamH)) 
-				team1 = possiblePlayers.get(i);
-			if(possiblePlayers.get(i).getStrName().equals(teamG))
-				team2 = possiblePlayers.get(i);
+	public static void writeToXML(String filename, SoccerWC worldCup) throws IOException {
+		// setup document
+		Element root = new Element("worldCup");
+		Document doc = new Document(root);
+		
+		// setup meta info
+		Element wcInfo = new Element("meta");
+		wcInfo.addContent(new Element("name").setText(worldCup.getName()));
+		root.addContent(wcInfo);
+		
+		// prepare groups
+		Element groups = new Element("groups");
+		
+		for (Group gr : worldCup.getGroups()) {
+			Element groupElement = new Element("group");
+			groupElement.addContent(new Element("groupName").setText(gr.getStrGroupName()));
+			addTeams(groupElement, gr.getTeams());
+			addGames(groupElement, gr.getGames());
+			groups.addContent(groupElement);
 		}
-
-		/*
-		 * If we couldn't find them...
-		 * -- In the ko phase, assume that the team names
-		 * are place holders because the game has not been played yet.
-		 * -- In the group phase, that's an error, and we throw an exception.
-		 */
-		if(team1 == null) {
-			if(isFinalsGame)
-				team1 = new Team(teamH, 0, 0, 0, 0, 0, 0, 0);
-			else
-				throw new IllegalArgumentException("Team could not be found in the group!");
-		}
-		if(team2 == null) {
-			if(isFinalsGame)
-				team2 = new Team(teamG, 0, 0, 0, 0, 0, 0, 0);
-			else
-				throw new IllegalArgumentException("Team could not be found in the group!");
-		}
-
-		// Return the new game object.
-		return new Game(gameId, date, time, location, team1, team2, goalsH, goalsG, isPlayed);
+		root.addContent(groups);
+		
+		// prepare finals
+		Element finals = new Element("finals");
+		
+		Element round16 = new Element("round16");
+		finals.addContent(round16);
+		addGames(round16, worldCup.getFinals().getRoundOf16());
+		
+		Element quarter = new Element("quarter");
+		finals.addContent(quarter);
+		addGames(quarter, worldCup.getFinals().getQuarterFinals());
+		
+		Element semi = new Element("semi");
+		finals.addContent(semi);
+		addGames(semi, worldCup.getFinals().getSemiFinals());
+		
+		Element thirdGame = new Element("third");
+		finals.addContent(thirdGame);
+		Vector<Game> third = new Vector<Game>();
+		third.add(worldCup.getFinals().getThirdGame());
+		addGames(thirdGame, third);
+		
+		Element finalGame = new Element("final");
+		finals.addContent(finalGame);
+		Vector<Game> tmp = new Vector<Game>();
+		tmp.add(worldCup.getFinals().getFinalGame());
+		addGames(finalGame, tmp);
+		
+		Element winner = new Element("winner").setText(worldCup.getFinals().getWinner());
+		finals.addContent(winner);
+		
+		root.addContent(finals);
+		
+		FileOutputStream output = new FileOutputStream(filename);
+		XMLOutputter outputter = new XMLOutputter();
+		outputter.output(doc,output);
+		output.close();
 	}
 
-	/**
-	 * Creates a team object from an XML element.
-	 * We just need to parse the subelements.
-	 * 
-	 * @param teamElement - Element
-	 * @return new Team
-	 */
-	private static Team createTeam(Element teamElement) {
-		String teamName = teamElement.getChildText("strName", ns);
-		int played = Integer.parseInt(teamElement.getChildText("played", ns));
-		int won = Integer.parseInt(teamElement.getChildText("won", ns));
-		int lost = Integer.parseInt(teamElement.getChildText("lost", ns));
-		int draw = Integer.parseInt(teamElement.getChildText("drawn", ns));
-		int gf = Integer.parseInt(teamElement.getChildText("gf", ns));
-		int ga = Integer.parseInt(teamElement.getChildText("ga", ns));
-		int points = Integer.parseInt(teamElement.getChildText("points", ns));
-		return new Team(teamName, points, gf, ga, played, won, lost, draw);
+	private static void addTeams(Element groupElement, Vector<Team> teams) {
+		for (Team team : teams) {
+			Element teamElement = new Element("team");
+			teamElement.addContent(new Element("teamName").setText(team.getStrName()));
+			teamElement.addContent(new Element("points").setText("" + team.getPoints()));
+			teamElement.addContent(new Element("gf").setText("" + team.getGf()));
+			teamElement.addContent(new Element("ga").setText("" + team.getGa()));
+			teamElement.addContent(new Element("played").setText("" + team.getPlayed()));
+			teamElement.addContent(new Element("won").setText("" + team.getWon()));
+			teamElement.addContent(new Element("loss").setText("" + team.getLoss()));
+			teamElement.addContent(new Element("draw").setText("" + team.getDraw()));
+			groupElement.addContent(teamElement);
+		}
 	}
 
-	/**
-	 * Creates a XML element from a Game object.
-	 * This method works by:
-	 * -- splitting the string representation (just as for CSV files)
-	 * -- add the subelements with the element names from teamFields,
-	 * -- and add the id attribute.
-	 * 
-	 * @param game - Game
-	 * @param rootName - String
-	 * Depending on its position in the file, the game element can have different names.
-	 * @return new Element
-	 */
-	private static Element gameToElement(Game game, String rootName) {
-		Element gameRoot = new Element(rootName, ns);
-		String [] attributes = game.toString().split(",");
-		for(int i = 1; i < attributes.length; i++){
-			String element = attributes[i];
-			String elementName = gameFields[i-1];
-			gameRoot.addContent(new Element(elementName, ns).setText(element));
+	private static void addGames(Element groupElement, Vector<Game> games) {
+		for (Game game : games) {
+			Element gameElement = new Element("game");
+			gameElement.addContent(new Element("gameId").setText("" + game.getIntId()));
+			gameElement.addContent(new Element("time").setText("" + game.getTime()));
+			gameElement.addContent(new Element("date").setText("" + game.getDate()));
+			gameElement.addContent(new Element("location").setText("" + game.getLocation()));
+			gameElement.addContent(new Element("goalsH").setText("" + game.getGoalsH()));
+			gameElement.addContent(new Element("goalsG").setText("" + game.getGoalsG()));
+			gameElement.addContent(new Element("isPlayed").setText("" + game.isPlayed()));
+			gameElement.addContent(new Element("teamH").setText("" + game.getTeamH().getStrName()));
+			gameElement.addContent(new Element("teamG").setText("" + game.getTeamG().getStrName()));
+			groupElement.addContent(gameElement);
 		}
-		gameRoot.setAttribute(new Attribute("id", String.valueOf(game.getIntId())));
-		return gameRoot;
-	}
-
-	/**
-	 * Creates a XML element from a Team object.
-	 * This method works similarly to {@link XMLFiles#gameToElement(Game, String)}.
-	 *  
-	 * @param team Team
-	 * @return new Element
-	 */
-	private static Element teamToElement(Team team) {
-		Element teamRoot = new Element("teams", ns);
-		String [] attributes = team.toString().split(",");
-		for(int i = 0; i < attributes.length; i++){
-			String element = attributes[i];
-			String elementName = teamFields[i];
-			teamRoot.addContent(new Element(elementName, ns).setText(element));
-		}
-		return teamRoot;
 	}
 }
