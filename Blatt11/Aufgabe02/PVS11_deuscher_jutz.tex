@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage{xcolor,listings}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage[ngerman]{babel}
+\usepackage{pgfplots}
+\usepackage{hyperref}
+\usepackage{pgfplotstable}
+\usepackage{csvsimple}
+\usepackage{float}
+\usepackage[caption = false]{subfig}
+\usepackage[final]{graphicx}
+\lstset{upquote=true}
+
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vfill
+    \includegraphics[width=13cm]{UniUlmLogo.PNG} % also works with logo.pdf
+    \vfill
+    \vfill
+    {\bfseries\Large
+        Programmierung von Systemen\\
+        Blatt 11\\
+        \vskip2cm
+        Marco Deuscher\\ \href{mailto:marco.deuscher@uni-ulm.de}{marco.deuscher@uni-ulm.de}\\
+        Benedikt Jutz\\ \href{benedikt.jutz@uni-ulm.de}{benedikt.jutz@uni-ulm.de}\\
+        \vfill
+    }    
+     Juni 2018
+    \vfill
+    \vfill
+    \vfill
+\end{titlepage}
+
+\clearpage
+\section{Aufgabe 2: Erreichbarkeitsanalyse}
+\begin{table}[h!]
+    \centering
+    \vspace{3mm}
+     \begin{tabular}{|c||c||c||c||c||c|}
+        \hline
+        Markierung & $S_1$ & $S_2$ & $S_3$ & $S_4$ & Transition \\ 
+        \hline
+        $M_0$ & 1 & 0 & 1 & 1 & $T_1 \rightarrow M_1$\\
+        $M_1$ & 0 & 1 & 0 & 1 & $T_2 \rightarrow M_2$ or $T_4                    \rightarrow M_8$\\
+        $M_2$ & 1 & 0 & 0 & 1 & $T_3 \rightarrow M_3$\\
+        $M_3$ & 0 & 0 & 1 & 1 & $T_4 \rightarrow M_4$\\
+        $M_4$ & 1 & 0 & 1 & 0 & $T_1 \rightarrow M_5$\\
+        $M_5$ & 0 & 1 & 0 & 0 & $T_2 \rightarrow M_6$\\
+        $M_6$ & 1 & 0 & 0 & 0 & $T_3 \rightarrow M_7$\\
+        $M_7$ & 0 & 0 & 1 & 0 & ---\\
+        $M_8$ & 1 & 1 & 0 & 0 & $T_3 \rightarrow M_9$\\
+        $M_9$ & 0 & 1 & 1 & 0 & $T_2 \rightarrow M_4$\\
+        \hline
+        \end{tabular}
+     \caption{Erreichbarkeitsanalys für gegebenes Petri-Netz}
+    \label{TabelleV04}
+\end{table}
+
+Die Erreichbarkeitsanalyse zeigt, dass es wenn Zustand $M_7$ erreicht wird zu einem Deadlock kommt.
+
+\end{document}
