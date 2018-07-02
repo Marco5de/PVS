@@ -27,28 +27,28 @@ public class LegoDB {
 	public LegoDB() throws SQLException {
 		conn = this.openConnection();
 		this.qAuftraege = conn.prepareStatement(
-				"SELECT *" +
+				"SELECT * " +
 				"FROM auftragsds");
 		this.qAuftragpos = conn.prepareStatement(
-				"SELECT *" +
-				"FROM auftragsposds");
+				"SELECT * " +
+				"FROM auftragsposds ");
 		this.qKunde = conn.prepareStatement(
-				"SELECT *" +
-				"FROM kunden");
+				"SELECT * " +
+				"FROM kunden ");
 		this.checkTeil = conn.prepareStatement(
-				"SELECT TeileID, Farbe" +
-				"FROM Teile" +
-				"WHERE TeileID = ? AND FABRE = ?");
+				"SELECT TeileID, Farbe " +
+				"FROM Teile " +
+				"WHERE TeileID=? AND Farbe=? ");
 		this.insertAuftrag = conn.prepareStatement(
-					"INSERT INTO auftragds(AuftrNr, KdNr, KdAuftrNr, KdAuftrDatum, Erfassungsdatum)" +
+					"INSERT INTO auftragsds(AuftrNr, KdNr, KdAuftrNr, KdAuftrDatum, Erfassungsdatum) " +
 							"VALUES(?, ?, ?, ?, ?)");
 		this.insertAuftragpos = conn.prepareStatement(
-				"INSERT INTO auftragsposds(AuftrNr, AuftrPos, TeileID, Farbe, AnzVonKundeBestellt)" +
-						"VALUES(?, ?, ?, ?, ?)");
+				"INSERT INTO auftragsposds(AuftrNr, AuftrPos, TeileID, Farbe, AnzVonKundeBestellt) " +
+						"VALUES(?, ?, ?, ?, ?) ");
 		this.getAuftrNr = conn.prepareStatement(
-				"SELECT AuftrNr" +
-						"FROM auftragsds" +
-						"ORDER BY AuftrNr ASC");
+				"SELECT AuftrNr " +
+						"FROM auftragsds " +
+						"ORDER BY AuftrNr DESC ");
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class LegoDB {
 		try {
 			ResultSet feedback = getAuftrNr.executeQuery();
 			if(feedback.next())
-				return feedback.getInt("AuftrNr");
+				return feedback.getInt("AuftrNr")+1;
 			else
 				return 0;
 		} catch (SQLException e) {
