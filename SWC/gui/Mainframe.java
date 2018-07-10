@@ -260,6 +260,7 @@ public class Mainframe extends JFrame implements ActionListener{
 			this.worldCup = newWorldCup;
 			listener.setWorldCup(worldCup);
 			CtrlFinals.calculateFinals(newWorldCup);
+			updateView("World cup loaded from remote file!");
 		}
 		catch(Exception ex) {
 			JOptionPane.showMessageDialog(this, ex.toString(), "Couldn't load world cup from remote file", JOptionPane.ERROR_MESSAGE);

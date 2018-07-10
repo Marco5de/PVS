@@ -32,6 +32,7 @@ public class XMLFiles {
 		InputStream remoteStream = url.openStream();
 		SAXBuilder builder = new SAXBuilder();
 		Document doc = builder.build(remoteStream);
+		processFile(doc, worldCup);
 		worldCup.setFilename(path);
 		return worldCup;
 	}
