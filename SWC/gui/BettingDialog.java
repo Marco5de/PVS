@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -42,6 +43,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import swc.ctrl.CtrlGroup;
+import swc.ctrl.TipUploaderThread;
 import swc.data.Game;
 import swc.data.SoccerWC;
 import swc.data.Tip;
@@ -611,26 +613,18 @@ public class BettingDialog extends JDialog {
 
 	//TODO IMPLEMENT
 	private void uploadTipsToServer(Vector<Tip> tips, String betterEmail, String betterPin) {
-		String path = "http://swc.dbis.info/api/Betting/"+betterEmail+"/"+betterPin;
-		for(Tip tip: tips) {
-			String websiteName = path + "/"+String.valueOf(tip.getGameId());
-			websiteName += "/"+String.valueOf(tip.getGoalsHome());
-			websiteName += "/"+String.valueOf(tip.getGoalsGuest());
+		ArrayList<TipUploaderThread> list = new ArrayList<>();
+		for(Tip tip: tips){
+			TipUploaderThread thread = new TipUploaderThread(tip, betterPin, betterEmail);
+			list.add(thread);
+		}
 
+		for(TipUploaderThread thread: list){
+			thread.start();
 			try {
-				URL website = new URL(websiteName);
-				InputStream response = website.openStream();
-				JsonReader reader = Json.createReader(response);
-
-				JsonValue value = reader.readValue();
-				boolean successfulBet = Boolean.parseBoolean(value.toString());
-				if(!successfulBet) {
-					JOptionPane.showMessageDialog(this, "The login data is invalid. Check your PIN!", "Authentication Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-			}
-			catch(IOException e) {
-				JOptionPane.showMessageDialog(this, "An error occured while connecting to the server: "+e.getMessage(), "Error while uploading tips", JOptionPane.ERROR_MESSAGE);
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 		JOptionPane.showMessageDialog(this, "Tips have been uploaded!", "Success", JOptionPane.INFORMATION_MESSAGE);
