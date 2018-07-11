@@ -611,8 +611,8 @@ public class BettingDialog extends JDialog {
 		return tips;
 	}
 
-	//TODO IMPLEMENT
 	private void uploadTipsToServer(Vector<Tip> tips, String betterEmail, String betterPin) {
+		TipUploaderThread.resetUploadSuccesful();
 		ArrayList<TipUploaderThread> list = new ArrayList<>();
 		for(Tip tip: tips){
 			TipUploaderThread thread = new TipUploaderThread(tip, betterPin, betterEmail);
@@ -621,10 +621,18 @@ public class BettingDialog extends JDialog {
 
 		for(TipUploaderThread thread: list){
 			thread.start();
+		}
+
+		for(TipUploaderThread thread: list){
 			try {
 				thread.join();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(this, "An error occured while sending the tips", "Program Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			if(!TipUploaderThread.wasUploadSuccesful()){
+				JOptionPane.showMessageDialog(this, "Wrong PIN for " + betterEmail, "PIN Error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 		}
 		JOptionPane.showMessageDialog(this, "Tips have been uploaded!", "Success", JOptionPane.INFORMATION_MESSAGE);

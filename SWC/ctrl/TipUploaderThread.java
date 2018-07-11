@@ -13,7 +13,7 @@ import swc.data.Tip;
 public class TipUploaderThread extends Thread{
 	private Tip tip;
 	private String betterEmail, betterPin;
-	private static String serverName = "http://swc.dbis.info/api/Betting/";
+	private static String serverName = "http://swc.dbis.info/api/Betting";
 	private static Boolean uploadSuccessful = new Boolean(false);
 
 	public TipUploaderThread(Tip tip, String betterPin, String betterEmail){
@@ -23,12 +23,17 @@ public class TipUploaderThread extends Thread{
 		System.out.println(this.toString()+": created");
 	}
 
-	private static synchronized boolean wasUploadSuccesful(){
+	public static synchronized boolean wasUploadSuccesful(){
 		return uploadSuccessful;
+	}
+
+	public static synchronized void resetUploadSuccesful(){
+		uploadSuccessful = new Boolean(true);
 	}
 
 	public void run(){
 		String websiteName = serverName+"/"+betterEmail+"/"+betterPin;
+		websiteName += "/"+String.valueOf(tip.getGameId());
 		websiteName += "/"+String.valueOf(tip.getGoalsHome());
 		websiteName += "/"+String.valueOf(tip.getGoalsGuest());
 
